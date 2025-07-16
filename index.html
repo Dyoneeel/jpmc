@@ -75,7 +75,6 @@
         <i class="fas fa-search search-icon"></i>
         <input type="text" class="search-input" placeholder="Search inventory or production...">
     </div>
-    <!-- Remove notifications -->
     <!-- Change user profile to just an icon and Admin user name -->
     <div class="user-profile" style="padding: 8px 12px; border-radius: 12px; display: flex; align-items: center;">
         <i class="fas fa-user-shield" style="font-size: 1.5rem; color: #2563eb; margin-right: 10px;"></i>
@@ -645,7 +644,7 @@
             <div class="module-content" id="raw-materials">
                 <!-- Add Raw Material Button -->
     <div style="margin-bottom: 20px;">
-        
+        <button class="btn btn-primary" id="openAddMaterialModal">Add Raw Material</button>
     </div>
 
     <!-- Modal for Add Raw Material -->
@@ -735,55 +734,171 @@
     <!-- End Modal -->
 
                 <div class="table-section">
-                    <div class="table-header" style="display: flex; justify-content: center; align-items: center; position: relative;">
-                        <div class="search-container" style="min-width: 250px; position: absolute; left: 0;">
-                            <i class="fas fa-search search-icon" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #2563eb;"></i>
-                            <input type="text" class="search-input" placeholder="Search raw materials..." style="padding-left: 36px; width: 220px; border-radius: 8px; border: 2px solid #e2e8f0; height: 36px; font-size: 1rem;">
-                        </div>
-                        <div class="table-title" style="margin: 0 auto; text-align: center;">Raw Materials Inventory</div>
-                        <div class="table-actions" style="position: absolute; right: 0;">
-                            <button class="btn btn-primary" id="openAddMaterialModal">Add Raw Material</button>
+                    <div class="table-header">
+                        <div class="table-title">Raw Materials Inventory</div>
+                        <div class="table-actions">
+                            <button class="btn btn-outline">Export</button>
+                            <button class="btn btn-primary">Bulk Update</button>
                         </div>
                     </div>
                     <div class="table-responsive">
                         <table>
                             <thead>
                                 <tr>
-                                    <th>DATE REQUEST</th>
-                                    <th>PRODUCT USED</th>
-                                    <th>BEG. INVENTORY</th>
-                                    <th>IN</th>
-                                    <th>OUT</th>
-                                    <th>BAL</th>
-                                    <th>LOCATION</th>
-                                    <th></th>
+                                    <th>Code</th>
+                                    <th>Material Name</th>
+                                    <th>Category</th>
+                                    <th>Current Stock</th>
+                                    <th>Min Level</th>
+                                    <th>Reorder Qty</th>
+                                    <th>Unit Cost</th>
+                                    <th>Total Value</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>RM-001</td>
                                     <td>Polyethylene Resin</td>
+                                    <td>Resins</td>
                                     <td>15,500 kg</td>
+                                    <td>10,000 kg</td>
                                     <td>5,000 kg</td>
-                                    <td>-500 kg</td>
-                                    <td>15,000 kg</td>
-                                    <td>Plant 1</td>
+                                    <td>$2.50</td>
+                                    <td>$38,750</td>
+                                    <td><span class="status-badge completed">In Stock</span></td>
                                     <td>
-                            
-                                        <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
+                                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
+                                        <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;">Update</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>RM-002</td>
                                     <td>PVC Powder</td>
+                                    <td>Resins</td>
                                     <td>3,200 kg</td>
+                                    <td>5,000 kg</td>
                                     <td>2,500 kg</td>
-                                    <td>-</td>
-                                    <td>5,700 kg</td>
-                                    <td>Plant 1</td>
+                                    <td>$1.80</td>
+                                    <td>$5,760</td>
+                                    <td><span class="status-badge low-stock">Low Stock</span></td>
                                     <td>
-                                        
-                                        <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
+                                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
+                                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;">Reorder</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>RM-003</td>
+                                    <td>Plasticizer</td>
+                                    <td>Additives</td>
+                                    <td>1,800 L</td>
+                                    <td>1,000 L</td>
+                                    <td>500 L</td>
+                                    <td>$3.20</td>
+                                    <td>$5,760</td>
+                                    <td><span class="status-badge completed">In Stock</span></td>
+                                    <td>
+                                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
+                                        <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;">Update</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Finished Goods Module -->
+            <div class="module-content" id="finished-goods">
+                <!-- Product List Section -->
+                <div class="table-section">
+                    <div class="table-header" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="search-container" style="position: relative; display: inline-block;">
+                            <i class="fas fa-search search-icon" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--gray); font-size: 16px;"></i>
+                            <input type="text" id="productSearchInput" class="search-input" placeholder="Search products..." style="padding-left: 35px; width: 250px;">
+                        </div>
+                        <div class="table-title" style="text-align: center; flex-grow: 1;">Finished Products</div>
+                        <button class="btn btn-primary" id="openAddProductModal">Add New Product</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="productTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Product Name</th>
+                                    <th>Category</th>
+                                    <th>Raw Materials</th>
+                                    <th>Unit</th>
+                                    <th>Production Process</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>40 SLX Stand cap</td>
+                                    <td>Plastic Components</td>
+                                    <td>PP PROPILINAS</td>
+                                    <td>Bags</td>
+                                    <td>Injection Molding</td>
+                                    <td><span class="status-badge completed">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-outline view-product-btn" data-product-id="FP-001">View</button>
+                                        <button class="btn btn-primary edit-product-btn" data-product-id="FP-001">Edit</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>GAS KNOB</td>
+                                    <td>Plastic Components</td>
+                                    <td>NYLON</td>
+                                    <td>Bags</td>
+                                    <td>Injection Molding</td>
+                                    <td><span class="status-badge completed">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-outline view-product-btn" data-product-id="FP-002">View</button>
+                                        <button class="btn btn-primary edit-product-btn" data-product-id="FP-002">Edit</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>SWITCH KNOB</td>
+                                    <td>Plastic Components</td>
+                                    <td>ABS</td>
+                                    <td>Bags</td>
+                                    <td>Injection Molding</td>
+                                    <td><span class="status-badge completed">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-outline view-product-btn" data-product-id="FP-003">View</button>
+                                        <button class="btn btn-primary edit-product-btn" data-product-id="FP-003">Edit</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>PLASTIC YELLOW CORE</td>
+                                    <td>Plastic Components</td>
+                                    <td>POLYSTYRENE CLEAR</td>
+                                    <td>Bags</td>
+                                    <td>Extrusion</td>
+                                    <td><span class="status-badge completed">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-outline view-product-btn" data-product-id="FP-004">View</button>
+                                        <button class="btn btn-primary edit-product-btn" data-product-id="FP-004">Edit</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>PLASTIC CORE</td>
+                                    <td>Plastic Components</td>
+                                    <td>HIPS H-IMPACT</td>
+                                    <td>Bags</td>
+                                    <td>Extrusion</td>
+                                    <td><span class="status-badge completed">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-outline view-product-btn" data-product-id="FP-005">View</button>
+                                        <button class="btn btn-primary edit-product-btn" data-product-id="FP-005">Edit</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -791,56 +906,182 @@
                     </div>
                 </div>
 
-                <!-- Edit Table Modal -->
-                <div id="editTableModal" class="modal-overlay" style="display:none;">
+                <!-- Modal for Add Product -->
+                <div id="addProductModal" class="modal-overlay" style="display:none;">
                     <div class="modal-content">
-                        <span class="close-modal" id="closeEditTableModal">&times;</span>
+                        <span class="close-modal" id="closeAddProductModal">&times;</span>
                         <div class="form-section" style="box-shadow:none; border:none; margin-bottom:0;">
                             <div class="form-header">
-                                <h2 class="form-title">Edit Raw Materials Table</h2>
+                                <h2 class="form-title">Add New Product</h2>
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label class="form-label">Date Request</label>
-                                    <input type="date" class="form-input" id="edit-date-request">
+                                    <label class="form-label">Product Name</label>
+                                    <input type="text" class="form-input" placeholder="Enter product name">
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Product Used</label>
-                                    <input type="text" class="form-input" id="edit-product-used" placeholder="Enter product used">
+                                    <label class="form-label">Product Code</label>
+                                    <input type="text" class="form-input" placeholder="Enter product code">
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Beg. Inventory</label>
-                                    <input type="text" class="form-input" id="edit-beg-inventory" placeholder="Enter beginning inventory">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">IN</label>
-                                    <input type="text" class="form-input" id="edit-in" placeholder="Enter IN value">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">OUT</label>
-                                    <input type="text" class="form-input" id="edit-out" placeholder="Enter OUT value">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">BAL</label>
-                                    <input type="text" class="form-input" id="edit-bal" placeholder="Enter BAL value">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Location</label>
-                                    <input type="text" class="form-input" id="edit-location" placeholder="Enter location">
+                                    <label class="form-label">Category</label>
+                                    <select class="form-input">
+                                        <option>Plastic Components</option>
+                                        <option>Rubber Components</option>
+                                        <option>Composite Materials</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div style="margin-top: 25px; display: flex; gap: 10px;">
-                                <button class="btn btn-primary" id="saveEditTableRow">Save</button>
-                                <button class="btn btn-danger" id="deleteTableRow">Delete</button>
-                                <button class="btn btn-outline" type="button" id="cancelEditTableModal">Cancel</button>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Raw Material Used</label>
+                                    <select class="form-input" multiple>
+                                        <option>PP PROPILINAS</option>
+                                        <option>NYLON</option>
+                                        <option>ABS</option>
+                                        <option>POLYSTYRENE CLEAR</option>
+                                        <option>HIPS H-IMPACT</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Unit of Measure</label>
+                                    <select class="form-input">
+                                        <option>kg</option>
+                                        <option>Bags</option>
+                                        <option>Pieces</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Standard Weight</label>
+                                    <input type="number" class="form-input" placeholder="Enter weight per unit">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Production Process</label>
+                                    <select class="form-input">
+                                        <option>Injection Molding</option>
+                                        <option>Extrusion</option>
+                                        <option>Compression Molding</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="margin-top: 25px;">
+                                <button class="btn btn-primary">Save Product</button>
+                                <button class="btn btn-outline" type="button" id="cancelAddProductModal">Cancel</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- End Edit Table Modal -->
-            </div>
 
-            <!-- Additional modules would be added here following the same pattern -->
+                <!-- Modal for Viewing Product Details -->
+                <div id="viewProductModal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+        <span class="close-modal" id="closeViewProductModal">&times;</span>
+        <div class="form-section" style="box-shadow:none; border:none; margin-bottom:0;">
+            <div class="form-header">
+                <h2 class="form-title">Product Details</h2>
+            </div>
+            <div class="slider-container">
+                <div class="slider" id="productImageSlider">
+                    <!-- Images will be dynamically added here -->
+                </div>
+                <div class="slider-controls">
+                    <button class="slider-btn" id="prevImage"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="slider-btn" id="nextImage"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Product Name</label>
+                    <p id="productName" class="form-input" style="border:none; background:none;"></p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Product Code</label>
+                    <p id="productCode" class="form-input" style="border:none; background:none;"></p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <p id="productCategory" class="form-input" style="border:none; background:none;"></p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Production Process</label>
+                    <p id="productProcess" class="form-input" style="border:none; background:none;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                <!-- Modal for Editing Product Details -->
+                <div id="editProductModal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+        <span class="close-modal" id="closeEditProductModal">&times;</span>
+        <div class="form-section" style="box-shadow:none; border:none; margin-bottom:0;">
+            <div class="form-header">
+                <h2 class="form-title">Edit Product</h2>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Product Name</label>
+                    <input type="text" id="editProductName" class="form-input" placeholder="Enter product name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Product Code</label>
+                    <input type="text" id="editProductCode" class="form-input" placeholder="Enter product code">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <select id="editProductCategory" class="form-input">
+                        <option>Plastic Components</option>
+                        <option>Rubber Components</option>
+                        <option>Composite Materials</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Raw Material Used</label>
+                    <select id="editProductMaterials" class="form-input" multiple>
+                        <option>PP PROPILINAS</option>
+                        <option>NYLON</option>
+                        <option>ABS</option>
+                        <option>POLYSTYRENE CLEAR</option>
+                        <option>HIPS H-IMPACT</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Unit of Measure</label>
+                    <select id="editProductUnit" class="form-input">
+                        <option>kg</option>
+                        <option>Bags</option>
+                        <option>Pieces</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Standard Weight</label>
+                    <input type="number" id="editProductWeight" class="form-input" placeholder="Enter weight per unit">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Production Process</label>
+                    <select id="editProductProcess" class="form-input">
+                        <option>Injection Molding</option>
+                        <option>Extrusion</option>
+                        <option>Compression Molding</option>
+                    </select>
+                </div>
+            </div>
+            <div style="margin-top: 25px;">
+                <button class="btn btn-primary" id="saveEditProduct">Save Changes</button>
+                <button class="btn btn-outline" type="button" id="cancelEditProductModal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+            </div>
         </div>
     </div>
 
