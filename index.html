@@ -645,7 +645,7 @@
             <div class="module-content" id="raw-materials">
                 <!-- Add Raw Material Button -->
     <div style="margin-bottom: 20px;">
-        <button class="btn btn-primary" id="openAddMaterialModal">Add Raw Material</button>
+        
     </div>
 
     <!-- Modal for Add Raw Material -->
@@ -735,79 +735,109 @@
     <!-- End Modal -->
 
                 <div class="table-section">
-                    <div class="table-header">
-                        <div class="table-title">Raw Materials Inventory</div>
-                        <div class="table-actions">
-                            <button class="btn btn-outline">Export</button>
-                            <button class="btn btn-primary">Bulk Update</button>
+                    <div class="table-header" style="display: flex; justify-content: center; align-items: center; position: relative;">
+                        <div class="search-container" style="min-width: 250px; position: absolute; left: 0;">
+                            <i class="fas fa-search search-icon" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #2563eb;"></i>
+                            <input type="text" class="search-input" placeholder="Search raw materials..." style="padding-left: 36px; width: 220px; border-radius: 8px; border: 2px solid #e2e8f0; height: 36px; font-size: 1rem;">
+                        </div>
+                        <div class="table-title" style="margin: 0 auto; text-align: center;">Raw Materials Inventory</div>
+                        <div class="table-actions" style="position: absolute; right: 0;">
+                            <button class="btn btn-primary" id="openAddMaterialModal">Add Raw Material</button>
                         </div>
                     </div>
                     <div class="table-responsive">
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Code</th>
-                                    <th>Material Name</th>
-                                    <th>Category</th>
-                                    <th>Current Stock</th>
-                                    <th>Min Level</th>
-                                    <th>Reorder Qty</th>
-                                    <th>Unit Cost</th>
-                                    <th>Total Value</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
+                                    <th>DATE REQUEST</th>
+                                    <th>PRODUCT USED</th>
+                                    <th>BEG. INVENTORY</th>
+                                    <th>IN</th>
+                                    <th>OUT</th>
+                                    <th>BAL</th>
+                                    <th>LOCATION</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>RM-001</td>
                                     <td>Polyethylene Resin</td>
-                                    <td>Resins</td>
                                     <td>15,500 kg</td>
-                                    <td>10,000 kg</td>
                                     <td>5,000 kg</td>
-                                    <td>$2.50</td>
-                                    <td>$38,750</td>
-                                    <td><span class="status-badge completed">In Stock</span></td>
+                                    <td>-500 kg</td>
+                                    <td>15,000 kg</td>
+                                    <td>Plant 1</td>
                                     <td>
-                                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
-                                        <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;">Update</button>
+                            
+                                        <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>RM-002</td>
                                     <td>PVC Powder</td>
-                                    <td>Resins</td>
                                     <td>3,200 kg</td>
-                                    <td>5,000 kg</td>
                                     <td>2,500 kg</td>
-                                    <td>$1.80</td>
-                                    <td>$5,760</td>
-                                    <td><span class="status-badge low-stock">Low Stock</span></td>
+                                    <td>-</td>
+                                    <td>5,700 kg</td>
+                                    <td>Plant 1</td>
                                     <td>
-                                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
-                                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;">Reorder</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>RM-003</td>
-                                    <td>Plasticizer</td>
-                                    <td>Additives</td>
-                                    <td>1,800 L</td>
-                                    <td>1,000 L</td>
-                                    <td>500 L</td>
-                                    <td>$3.20</td>
-                                    <td>$5,760</td>
-                                    <td><span class="status-badge completed">In Stock</span></td>
-                                    <td>
-                                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
-                                        <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;">Update</button>
+                                        
+                                        <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+
+                <!-- Edit Table Modal -->
+                <div id="editTableModal" class="modal-overlay" style="display:none;">
+                    <div class="modal-content">
+                        <span class="close-modal" id="closeEditTableModal">&times;</span>
+                        <div class="form-section" style="box-shadow:none; border:none; margin-bottom:0;">
+                            <div class="form-header">
+                                <h2 class="form-title">Edit Raw Materials Table</h2>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Date Request</label>
+                                    <input type="date" class="form-input" id="edit-date-request">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Product Used</label>
+                                    <input type="text" class="form-input" id="edit-product-used" placeholder="Enter product used">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Beg. Inventory</label>
+                                    <input type="text" class="form-input" id="edit-beg-inventory" placeholder="Enter beginning inventory">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">IN</label>
+                                    <input type="text" class="form-input" id="edit-in" placeholder="Enter IN value">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">OUT</label>
+                                    <input type="text" class="form-input" id="edit-out" placeholder="Enter OUT value">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">BAL</label>
+                                    <input type="text" class="form-input" id="edit-bal" placeholder="Enter BAL value">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Location</label>
+                                    <input type="text" class="form-input" id="edit-location" placeholder="Enter location">
+                                </div>
+                            </div>
+                            <div style="margin-top: 25px; display: flex; gap: 10px;">
+                                <button class="btn btn-primary" id="saveEditTableRow">Save</button>
+                                <button class="btn btn-danger" id="deleteTableRow">Delete</button>
+                                <button class="btn btn-outline" type="button" id="cancelEditTableModal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Edit Table Modal -->
             </div>
 
             <!-- Additional modules would be added here following the same pattern -->
