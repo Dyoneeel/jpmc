@@ -424,6 +424,8 @@
             box-shadow: var(--shadow);
             padding: 25px;
             border: 1px solid #e2e8f0;
+            max-width: 100%;
+            margin-right: 0;
         }
 
         .table-header {
@@ -448,11 +450,14 @@
 
         .table-responsive {
             overflow-x: auto;
+            max-width: 100%;
+            margin-right: 0;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            max-width: 100%;
         }
 
         th, td {
