@@ -98,3 +98,82 @@
     document.getElementById('addMaterialModal').onclick = function(e) {
         if (e.target === this) this.style.display = 'none';
     };
+
+    // Add Raw Material - Save and update table
+    document.getElementById('saveMaterialBtn').onclick = function() {
+        // Collect form values
+        const name = document.getElementById('materialNameInput').value.trim();
+        const code = document.getElementById('materialCodeInput').value.trim();
+        const category = document.getElementById('categoryInput').value;
+        const unit = document.getElementById('unitInput').value;
+        const quantity = document.getElementById('quantityInput').value.trim();
+        const minLevel = document.getElementById('minLevelInput').value.trim();
+        const reorderQty = document.getElementById('reorderQtyInput').value.trim();
+        const unitCost = document.getElementById('unitCostInput').value.trim();
+        // const supplier = document.getElementById('supplierInput').value; // Not shown in table
+        // const leadTime = document.getElementById('leadTimeInput').value; // Not shown in table
+        // const location = document.getElementById('locationInput').value; // Not shown in table
+
+        // Calculate total value
+        let totalValue = '';
+        if (quantity && unitCost) {
+            totalValue = '$' + (parseFloat(quantity) * parseFloat(unitCost)).toLocaleString();
+        } else {
+            totalValue = '';
+        }
+
+        // Determine status
+        let status = '';
+        if (quantity && minLevel) {
+            const qtyNum = parseFloat(quantity);
+            const minNum = parseFloat(minLevel);
+            if (qtyNum <= 0) {
+                status = '<span class="status-badge critical">Out of Stock</span>';
+            } else if (qtyNum < minNum) {
+                status = '<span class="status-badge low-stock">Low Stock</span>';
+            } else {
+                status = '<span class="status-badge completed">In Stock</span>';
+            }
+        }
+
+        // Format quantity, minLevel, reorderQty with unit
+        const quantityDisplay = quantity ? `${parseFloat(quantity).toLocaleString()} ${unit}` : '';
+        const minLevelDisplay = minLevel ? `${parseFloat(minLevel).toLocaleString()} ${unit}` : '';
+        const reorderQtyDisplay = reorderQty ? `${parseFloat(reorderQty).toLocaleString()} ${unit}` : '';
+        const unitCostDisplay = unitCost ? `$${parseFloat(unitCost).toFixed(2)}` : '';
+
+        // Create new row HTML
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td>${code}</td>
+            <td>${name}</td>
+            <td>${category}</td>
+            <td>${quantityDisplay}</td>
+            <td>${minLevelDisplay}</td>
+            <td>${reorderQtyDisplay}</td>
+            <td>${unitCostDisplay}</td>
+            <td>${totalValue}</td>
+            <td>${status}</td>
+            <td>
+                <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
+                <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;">Update</button>
+            </td>
+        `;
+        document.getElementById('rawMaterialsTableBody').appendChild(newRow);
+
+        // Optionally, reset form fields
+        document.getElementById('materialNameInput').value = '';
+        document.getElementById('materialCodeInput').value = '';
+        document.getElementById('categoryInput').selectedIndex = 0;
+        document.getElementById('unitInput').selectedIndex = 0;
+        document.getElementById('quantityInput').value = '';
+        document.getElementById('minLevelInput').value = '';
+        document.getElementById('reorderQtyInput').value = '';
+        document.getElementById('unitCostInput').value = '';
+        document.getElementById('supplierInput').selectedIndex = 0;
+        document.getElementById('leadTimeInput').value = '';
+        document.getElementById('locationInput').selectedIndex = 0;
+
+        // Close modal
+        document.getElementById('addMaterialModal').style.display = 'none';
+    };
