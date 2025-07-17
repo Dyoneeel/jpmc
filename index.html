@@ -529,22 +529,22 @@
                 <!-- End Modal -->
 
                 <div class="table-section">
-                    <div class="table-header" style="display: flex; justify-content: center; align-items: center; position: relative;">
-                        <div class="search-container" style="position: relative; min-width: 250px; left: 0;">
+                    <div class="table-header" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="search-container" style="position: relative; display: inline-block;">
                             <i class="fas fa-search search-icon" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--gray); font-size: 16px;"></i>
-                            <input type="text" class="search-input" placeholder="Search raw materials..." style="padding-left: 35px; width: 220px; border-radius: 8px; border: 2px solid #e2e8f0; height: 36px; font-size: 1rem;">
+                            <input type="text" id="rawMaterialSearchInput" class="search-input" placeholder="Search raw materials..." style="padding-left: 35px; width: 250px;">
                         </div>
-                        <div class="table-title" style="margin: 0 auto; text-align: center;">Raw Materials Inventory</div>
-                        <div class="table-actions" style="position: absolute; right: 0;">
-                            <button class="btn btn-primary" id="openAddMaterialModal">Add Raw Material</button>
-                        </div>
+                        <div class="table-title" style="text-align: center; flex-grow: 1;">Raw Materials Inventory</div>
+                        <button class="btn btn-primary" id="openAddMaterialModal">Add Raw Material</button>
                     </div>
                     <div class="table-responsive">
-                        <table>
+                        <table id="rawMaterialTable">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Raw Materials</th>
+                                    <th>Material Name</th>
+                                    <th>Material Code</th>
+                                    <th>Category</th>
                                     <th>Stock</th>
                                     <th>Location</th>
                                     <th>Status</th>
@@ -555,56 +555,66 @@
                                 <tr>
                                     <td>1</td>
                                     <td>PP PROPILINAS</td>
+                                    <td>RM-001</td>
+                                    <td>Resins</td>
                                     <td>15,500 kg</td>
                                     <td>Plant 1</td>
                                     <td><span class="status-badge completed">In Stock</span></td>
                                     <td>
-                                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
-                                        <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
+                                        <button class="btn btn-outline view-raw-btn" data-raw-id="RM-001" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
+                                        <button class="btn btn-primary edit-raw-btn" data-raw-id="RM-001" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>2</td>
                                     <td>NYLON</td>
+                                    <td>RM-002</td>
+                                    <td>Resins</td>
                                     <td>0 kg</td>
                                     <td>Plant 1</td>
                                     <td><span class="status-badge cancelled">Out of Stock</span></td>
                                     <td>
-                                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
-                                        <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
+                                        <button class="btn btn-outline view-raw-btn" data-raw-id="RM-002" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
+                                        <button class="btn btn-primary edit-raw-btn" data-raw-id="RM-002" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>3</td>
                                     <td>ABS</td>
+                                    <td>RM-003</td>
+                                    <td>Resins</td>
                                     <td>2,000 kg</td>
                                     <td>Plant 2</td>
                                     <td><span class="status-badge completed">In Stock</span></td>
                                     <td>
-                                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
-                                        <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
+                                        <button class="btn btn-outline view-raw-btn" data-raw-id="RM-003" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
+                                        <button class="btn btn-primary edit-raw-btn" data-raw-id="RM-003" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>4</td>
                                     <td>POLYSTYRENE CLEAR</td>
+                                    <td>RM-004</td>
+                                    <td>Resins</td>
                                     <td>500 kg</td>
                                     <td>Plant 2</td>
                                     <td><span class="status-badge completed">In Stock</span></td>
                                     <td>
-                                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
-                                        <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
+                                        <button class="btn btn-outline view-raw-btn" data-raw-id="RM-004" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
+                                        <button class="btn btn-primary edit-raw-btn" data-raw-id="RM-004" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>5</td>
                                     <td>HIPS H-IMPACT</td>
+                                    <td>RM-005</td>
+                                    <td>Resins</td>
                                     <td>0 kg</td>
                                     <td>Plant 1</td>
                                     <td><span class="status-badge cancelled">Out of Stock</span></td>
                                     <td>
-                                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
-                                        <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
+                                        <button class="btn btn-outline view-raw-btn" data-raw-id="RM-005" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
+                                        <button class="btn btn-primary edit-raw-btn" data-raw-id="RM-005" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -612,48 +622,102 @@
                     </div>
                 </div>
 
-                <!-- Edit Table Modal -->
-                <div id="editTableModal" class="modal-overlay" style="display:none;">
+                <!-- View Raw Material Modal -->
+                <div id="viewRawMaterialModal" class="modal-overlay" style="display:none;">
                     <div class="modal-content">
-                        <span class="close-modal" id="closeEditTableModal">&times;</span>
+                        <span class="close-modal" id="closeViewRawMaterialModal">&times;</span>
                         <div class="form-section" style="box-shadow:none; border:none; margin-bottom:0;">
                             <div class="form-header">
-                                <h2 class="form-title">Edit Raw Materials Table</h2>
+                                <h2 class="form-title">Raw Material Details</h2>
+                            </div>
+                            <div class="slider-container">
+                                <div class="slider" id="rawMaterialImageSlider">
+                                    <!-- Images will be dynamically added here -->
+                                </div>
+                                <div class="slider-controls">
+                                    <button class="slider-btn" id="prevRawImage"><i class="fa-solid fa-chevron-left"></i></button>
+                                    <button class="slider-btn" id="nextRawImage"><i class="fa-solid fa-chevron-right"></i></button>
+                                </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label class="form-label">Date Request</label>
-                                    <input type="date" class="form-input" id="edit-date-request">
+                                    <label class="form-label">Material Name</label>
+                                    <p id="rawMaterialName" class="form-input" style="border:none; background:none;"></p>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Product Used</label>
-                                    <input type="text" class="form-input" id="edit-product-used" placeholder="Enter product used">
+                                    <label class="form-label">Material Code</label>
+                                    <p id="rawMaterialCode" class="form-input" style="border:none; background:none;"></p>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Beg. Inventory</label>
-                                    <input type="text" class="form-input" id="edit-beg-inventory" placeholder="Enter beginning inventory">
+                                    <label class="form-label">Category</label>
+                                    <p id="rawMaterialCategory" class="form-input" style="border:none; background:none;"></p>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">IN</label>
-                                    <input type="text" class="form-input" id="edit-in" placeholder="Enter IN value">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">OUT</label>
-                                    <input type="text" class="form-input" id="edit-out" placeholder="Enter OUT value">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">BAL</label>
-                                    <input type="text" class="form-input" id="edit-bal" placeholder="Enter BAL value">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Location</label>
-                                    <input type="text" class="form-input" id="edit-location" placeholder="Enter location">
+                                    <label class="form-label">Stock</label>
+                                    <p id="rawMaterialStock" class="form-input" style="border:none; background:none;"></p>
                                 </div>
                             </div>
-                            <div style="margin-top: 25px; display: flex; gap: 10px;">
-                                <button class="btn btn-primary" id="saveEditTableRow">Save</button>
-                                <button class="btn btn-danger" id="deleteTableRow">Delete</button>
-                                <button class="btn btn-outline" type="button" id="cancelEditTableModal">Cancel</button>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Location</label>
+                                    <p id="rawMaterialLocation" class="form-input" style="border:none; background:none;"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Status</label>
+                                    <p id="rawMaterialStatus" class="form-input" style="border:none; background:none;"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Edit Raw Material Modal -->
+                <div id="editRawMaterialModal" class="modal-overlay" style="display:none;">
+                    <div class="modal-content">
+                        <span class="close-modal" id="closeEditRawMaterialModal">&times;</span>
+                        <div class="form-section" style="box-shadow:none; border:none; margin-bottom:0;">
+                            <div class="form-header">
+                                <h2 class="form-title">Edit Raw Material</h2>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Material Name</label>
+                                    <input type="text" id="editRawMaterialName" class="form-input" placeholder="Enter material name">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Material Code</label>
+                                    <input type="text" id="editRawMaterialCode" class="form-input" placeholder="Enter material code">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Category</label>
+                                    <select id="editRawMaterialCategory" class="form-input">
+                                        <option>Resins</option>
+                                        <option>Additives</option>
+                                        <option>Colorants</option>
+                                        <option>Stabilizers</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Stock</label>
+                                    <input type="number" id="editRawMaterialStock" class="form-input" placeholder="Enter stock">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Location</label>
+                                    <input type="text" id="editRawMaterialLocation" class="form-input" placeholder="Enter location">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Status</label>
+                                    <select id="editRawMaterialStatus" class="form-input">
+                                        <option>In Stock</option>
+                                        <option>Out of Stock</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="margin-top: 25px;">
+                                <button class="btn btn-primary" id="saveEditRawMaterial">Save Changes</button>
+                                <button class="btn btn-outline" type="button" id="cancelEditRawMaterialModal">Cancel</button>
                             </div>
                         </div>
                     </div>
