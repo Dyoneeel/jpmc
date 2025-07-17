@@ -842,24 +842,29 @@
         /* Modal Styles */
 .modal-overlay {
     position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(30, 64, 175, 0.15);
     z-index: 2000;
-    left: 0; top: 0; right: 0; bottom: 0;
-    background: rgba(30, 64, 175, 0.35); /* Slightly darker overlay */
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
+    animation: fadeIn 0.2s;
+}
+.modal-overlay[style*="display: flex"] {
+    display: flex !important;
 }
 .modal-content {
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: var(--shadow-lg); /* Stronger shadow */
-    padding: 30px; /* Increased padding */
-    min-width: 600px; /* Wider modal */
-    max-width: 80vw; /* Responsive width */
-    max-height: 90vh; /* Prevent overflow */
+    background: var(--white);
+    border-radius: 18px;
+    box-shadow: var(--shadow-lg);
+    padding: 32px 32px 24px 32px;
+    min-width: 350px;
+    max-width: 95vw;
+    min-height: 100px;
+    max-height: 90vh;
     overflow-y: auto;
     position: relative;
-    border: 1px solid #e2e8f0; /* Base border */
+    animation: fadeIn 0.2s;
 }
 .modal-content::before {
     content: '';
@@ -873,17 +878,16 @@
 }
 .close-modal {
     position: absolute;
-    top: 20px;
-    right: 30px;
-    font-size: 2rem;
-    color: #64748b;
+    top: 18px;
+    right: 24px;
+    font-size: 1.7rem;
+    color: var(--gray);
     cursor: pointer;
     z-index: 10;
-    transition: color 0.2s, transform 0.2s;
+    transition: color 0.2s;
 }
 .close-modal:hover {
-    color: #dc2626;
-    transform: scale(1.1); /* Slight zoom effect */
+    color: var(--primary-red);
 }
 @media (max-width: 576px) {
     .modal-content {
@@ -952,8 +956,16 @@
 
 /* Actions Button Styles */
 td > .btn {
-    margin-right: 5px; /* Add spacing between buttons */
-    display: inline-block; /* Ensure buttons are inline */
+    margin-right: 4px;
+    margin-bottom: 2px;
+    min-width: 60px;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    border-radius: 8px;
+    display: inline-block;
+}
+td > .btn:last-child {
+    margin-right: 0;
 }
 
 /* Remove inventory-item styles */
@@ -1063,4 +1075,21 @@ td > .btn {
     .table-section table td:nth-child(7) {
         width: 80px;
     }
+}
+
+/* Make only the edit modals wider and less tall */
+#editProductModal .modal-content,
+#editRawMaterialModal .modal-content {
+    min-width: 600px;
+    max-width: 900px;
+    max-height: 70vh;
+    padding: 32px 48px 24px 48px;
+}
+
+#addProductModal .modal-content,
+#addMaterialModal .modal-content {
+    min-width: 600px;
+    max-width: 900px;
+    max-height: 70vh;
+    padding: 32px 48px 24px 48px;
 }
