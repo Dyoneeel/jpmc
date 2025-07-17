@@ -1,4 +1,4 @@
-        :root {
+:root {
             --primary-red: #dc2626;
             --primary-blue: #2563eb;
             --dark-blue: #1e40af;
@@ -163,18 +163,6 @@
             font-weight: 700;
             color: var(--dark-blue);
             margin-right: 20px;
-        }
-
-        .breadcrumb {
-            font-size: 0.9rem;
-            color: var(--gray);
-            display: flex;
-            align-items: center;
-        }
-
-        .breadcrumb i {
-            margin: 0 8px;
-            font-size: 12px;
         }
 
         .header-right {
@@ -424,8 +412,6 @@
             box-shadow: var(--shadow);
             padding: 25px;
             border: 1px solid #e2e8f0;
-            max-width: 100%;
-            margin-right: 0;
         }
 
         .table-header {
@@ -450,14 +436,11 @@
 
         .table-responsive {
             overflow-x: auto;
-            max-width: 100%;
-            margin-right: 0;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            max-width: 100%;
         }
 
         th, td {
@@ -516,24 +499,6 @@
         .status-badge.critical {
             background: rgba(239, 68, 68, 0.2);
             color: #b91c1c;
-        }
-
-        .status-badge.in-stock {
-            background: #10b981;
-            color: #fff;
-            border-radius: 20px;
-            padding: 6px 16px;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .status-badge.out-stock {
-            background: #ef4444;
-            color: #fff;
-            border-radius: 20px;
-            padding: 6px 16px;
-            font-weight: 600;
-            display: inline-block;
         }
 
         .btn {
@@ -864,10 +829,6 @@
                 font-size: 1.5rem;
             }
             
-            .breadcrumb {
-                display: none;
-            }
-
             .inventory-grid {
                 grid-template-columns: 1fr;
             }
@@ -883,7 +844,7 @@
     position: fixed;
     z-index: 2000;
     left: 0; top: 0; right: 0; bottom: 0;
-    background: rgba(30, 64, 175, 0.25);
+    background: rgba(30, 64, 175, 0.35); /* Slightly darker overlay */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -891,40 +852,215 @@
 .modal-content {
     background: #fff;
     border-radius: 16px;
-    box-shadow: 0 10px 32px rgba(0,0,0,0.18);
-    padding: 0;
-    min-width: 400px;
-    max-width: 95vw;
-    max-height: 95vh;
+    box-shadow: var(--shadow-lg); /* Stronger shadow */
+    padding: 30px; /* Increased padding */
+    min-width: 600px; /* Wider modal */
+    max-width: 80vw; /* Responsive width */
+    max-height: 90vh; /* Prevent overflow */
     overflow-y: auto;
     position: relative;
+    border: 1px solid #e2e8f0; /* Base border */
+}
+.modal-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-red), var(--primary-blue)); /* Gradient border */
+    border-radius: 16px 16px 0 0; /* Match modal border radius */
 }
 .close-modal {
     position: absolute;
-    top: 18px;
-    right: 24px;
+    top: 20px;
+    right: 30px;
     font-size: 2rem;
     color: #64748b;
     cursor: pointer;
     z-index: 10;
-    transition: color 0.2s;
+    transition: color 0.2s, transform 0.2s;
 }
 .close-modal:hover {
     color: #dc2626;
+    transform: scale(1.1); /* Slight zoom effect */
 }
 @media (max-width: 576px) {
     .modal-content {
         min-width: 0;
-        width: 98vw;
-        padding: 0;
+        width: 95vw; /* Adjust for smaller screens */
+        padding: 20px;
     }
 }
 
-.status-center {
-    text-align: center !important;
-    vertical-align: middle !important;
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
+}
+::-webkit-scrollbar-track {
+    background: #f1f5f9; /* Light background for the track */
+    border-radius: 10px; /* Rounded corners */
+}
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--primary-red), var(--primary-blue)); /* Vertical gradient for the thumb */
+    border-radius: 10px; /* Rounded corners */
+    border: 3px solid #f1f5f9; /* Adds padding around the thumb */
+}
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--primary-red), var(--light-blue)); /* Slightly lighter vertical gradient on hover */
+}
+::-webkit-scrollbar-thumb:active {
+    background: linear-gradient(180deg, var(--primary-red), var(--dark-blue)); /* Darker vertical gradient when active */
 }
 
-.header-center {
-    text-align: center !important;
+/* Slider Styles for Product View Modal */
+.slider-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+}
+.slider {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+.slider img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+}
+.slider-controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+}
+.slider-btn {
+    background: linear-gradient(90deg, var(--primary-red), var(--primary-blue));
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+    color: var(--white);
+    padding: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+/* Actions Button Styles */
+td > .btn {
+    margin-right: 5px; /* Add spacing between buttons */
+    display: inline-block; /* Ensure buttons are inline */
+}
+
+/* Remove inventory-item styles */
+.inventory-grid,
+.inventory-item,
+.inventory-item:hover,
+.inventory-item-header,
+.inventory-item-title,
+.inventory-item-code,
+.inventory-item-details,
+.inventory-item-detail,
+.inventory-item-detail-label,
+.inventory-item-detail-value,
+.inventory-item-status {
+    display: none !important;
+}
+
+/* Add these styles to your styles.css file */
+
+/* Position the chevron icon to the far right */
+.menu-dropdown .fa-chevron-down {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+/* Class to rotate the chevron icon */
+.fa-rotate-180 {
+    transform: rotate(180deg);
+}
+
+/* Styles for the dropdown container */
+.dropdown-menu {
+    /* Hide the menu by default */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(0, 0, 0, 0.1); /* Slightly darker background for sub-items */
+}
+
+/* When the menu is open, expand it */
+.dropdown-menu.open {
+    max-height: 500px; /* Set to a height larger than the content */
+}
+
+/* Style for the dropdown items to give them an indent */
+.dropdown-menu .menu-item {
+    padding-left: 45px !important;
+}
+
+/* Raw Materials Inventory Table Column Styles */
+.table-section table th,
+.table-section table td {
+    /* Default alignment and padding already set above */
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.table-section table th:nth-child(1), /* DATE REQUEST */
+.table-section table td:nth-child(1) {
+    width: 120px;
+    text-align: center;
+}
+
+.table-section table th:nth-child(2), /* PRODUCT USED */
+.table-section table td:nth-child(2) {
+    width: 180px;
+}
+
+.table-section table th:nth-child(3), /* BEG. INVENTORY */
+.table-section table td:nth-child(3),
+.table-section table th:nth-child(4), /* IN */
+.table-section table td:nth-child(4),
+.table-section table th:nth-child(5), /* OUT */
+.table-section table td:nth-child(5),
+.table-section table th:nth-child(6), /* BAL */
+.table-section table td:nth-child(6) {
+    width: 110px;
+    text-align: left;
+}
+
+.table-section table th:nth-child(7), /* LOCATION */
+.table-section table td:nth-child(7) {
+    width: 120px;
+    text-align: center;
+}
+
+.table-section table th:nth-child(8), /* Actions */
+.table-section table td:nth-child(8) {
+    width: 90px;
+    text-align: center;
+}
+
+/* Responsive adjustments for raw materials table */
+@media (max-width: 900px) {
+    .table-section table th,
+    .table-section table td {
+        font-size: 0.85rem;
+        padding: 10px 6px;
+    }
+    .table-section table th:nth-child(2),
+    .table-section table td:nth-child(2) {
+        width: 120px;
+    }
+    .table-section table th:nth-child(1),
+    .table-section table td:nth-child(1),
+    .table-section table th:nth-child(7),
+    .table-section table td:nth-child(7) {
+        width: 80px;
+    }
 }
