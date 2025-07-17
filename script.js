@@ -1,4 +1,4 @@
-// Module switching functionality
+      // Module switching functionality
         document.querySelectorAll('.menu-item').forEach(item => {
             item.addEventListener('click', function() {
                 const module = this.getAttribute('data-module');
@@ -41,6 +41,10 @@
             console.log('Searching for:', searchTerm);
         });
 
+        // Notification functionality
+        document.querySelector('.notifications').addEventListener('click', function() {
+            alert('You have 5 new notifications:\n1. Polypropylene Resin stock critical\n2. PVC Powder reorder needed\n3. Production order PO-001 completed\n4. New supplier application received\n5. Scheduled maintenance for Extruder Line 2');
+        });
 
         // Initialize charts (placeholder)
         function initializeCharts() {
@@ -70,7 +74,7 @@
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
             initializeCharts();
-
+            
             // Set current date for date inputs
             const today = new Date().toISOString().split('T')[0];
             document.querySelectorAll('input[type="date"]').forEach(input => {
@@ -79,228 +83,109 @@
                 }
             });
 
-            // Modal functionality
-            const addProductModal = document.getElementById('addProductModal');
-            const openAddProductModal = document.getElementById('openAddProductModal');
-            const closeAddProductModal = document.getElementById('closeAddProductModal');
-            const cancelAddProductModal = document.getElementById('cancelAddProductModal');
-
-            openAddProductModal.addEventListener('click', () => {
-                addProductModal.style.display = 'flex';
-            });
-
-            closeAddProductModal.addEventListener('click', () => {
-                addProductModal.style.display = 'none';
-            });
-
-            cancelAddProductModal.addEventListener('click', () => {
-                addProductModal.style.display = 'none';
-            });
-
-            addProductModal.addEventListener('click', (e) => {
-                if (e.target === addProductModal) {
-                    addProductModal.style.display = 'none';
-                }
-            });
-
-            // View Product Modal Functionality
-            const viewProductModal = document.getElementById('viewProductModal');
-            const closeViewProductModal = document.getElementById('closeViewProductModal');
-            const productImageSlider = document.getElementById('productImageSlider');
-            const prevImageBtn = document.getElementById('prevImage');
-            const nextImageBtn = document.getElementById('nextImage');
-
-            let currentSlide = 0;
-
-            document.querySelectorAll('.view-product-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const productId = this.getAttribute('data-product-id');
-                    // Fetch product details dynamically (updated with images folder)
-                    const productDetails = {
-                        'FP-001': {
-                            name: '40 SLX Stand cap',
-                            code: 'FP-001',
-                            category: 'Plastic Components',
-                            process: 'Injection Molding',
-                            images: ['images/SLX1.png', 'images/SLX2.png', 'images/SLX3.png']
-                        },
-                        'FP-002': {
-                            name: 'GAS KNOB',
-                            code: 'FP-002',
-                            category: 'Plastic Components',
-                            process: 'Injection Molding',
-                            images: ['images/GAS-KNOB1.png', 'images/GAS-KNOB2.png', 'images/GAS-KNOB3.png']
-                        },
-                        'FP-003': {
-                            name: 'SWITCH KNOB',
-                            code: 'FP-003',
-                            category: 'Plastic Components',
-                            process: 'Injection Molding',
-                            images: ['images/SWITCH-KNOB1.png', 'images/SWITCH-KNOB2.png', 'images/SWITCH-KNOB3.png']
-                        },
-                        'FP-004': {
-                            name: 'PLASTIC YELLOW CORE',
-                            code: 'FP-004',
-                            category: 'Plastic Components',
-                            process: 'Injection Molding',
-                            images: ['images/fp003_1.jpg', 'images/fp003_2.jpg', 'images/fp003_3.jpg']
-                        },
-                        'FP-005': {
-                            name: 'PLASTIC CORE',
-                            code: 'FP-005',
-                            category: 'Plastic Components',
-                            process: 'Injection Molding',
-                            images: ['images/fp003_1.jpg', 'images/fp003_2.jpg', 'images/fp003_3.jpg']
-                        }
-                    };
-
-                    const product = productDetails[productId];
-                    if (product) {
-                        document.getElementById('productName').textContent = product.name;
-                        document.getElementById('productCode').textContent = product.code;
-                        document.getElementById('productCategory').textContent = product.category;
-                        document.getElementById('productProcess').textContent = product.process;
-
-                        // Populate slider images
-                        productImageSlider.innerHTML = product.images.map(img => `<img src="${img}" alt="${product.name}">`).join('');
-                        currentSlide = 0;
-                        productImageSlider.style.transform = `translateX(0)`;
-
-                        viewProductModal.style.display = 'flex';
-                    }
-                });
-            });
-
-            closeViewProductModal.addEventListener('click', () => {
-                viewProductModal.style.display = 'none';
-            });
-
-            prevImageBtn.addEventListener('click', () => {
-                const slides = productImageSlider.children.length;
-                currentSlide = (currentSlide - 1 + slides) % slides;
-                productImageSlider.style.transform = `translateX(-${currentSlide * 100}%)`;
-            });
-
-            nextImageBtn.addEventListener('click', () => {
-                const slides = productImageSlider.children.length;
-                currentSlide = (currentSlide + 1) % slides;
-                productImageSlider.style.transform = `translateX(-${currentSlide * 100}%)`;
-            });
-
-            // Edit Product Modal Functionality
-            const editProductModal = document.getElementById('editProductModal');
-            const closeEditProductModal = document.getElementById('closeEditProductModal');
-            const cancelEditProductModal = document.getElementById('cancelEditProductModal');
-            const saveEditProduct = document.getElementById('saveEditProduct');
-
-            const productDetails = {
-                'FP-001': {
-                    name: '40 SLX Stand cap',
-                    code: 'FP-001',
-                    category: 'Plastic Components',
-                    materials: ['PP PROPILINAS'],
-                    unit: 'Bags',
-                    weight: 1.5,
-                    process: 'Injection Molding'
-                },
-                'FP-002': {
-                    name: 'GAS KNOB',
-                    code: 'FP-002',
-                    category: 'Plastic Components',
-                    materials: ['NYLON'],
-                    unit: 'Bags',
-                    weight: 2.0,
-                    process: 'Injection Molding'
-                },
-                'FP-003': {
-                    name: 'SWITCH KNOB',
-                    code: 'FP-003',
-                    category: 'Plastic Components',
-                    materials: ['ABS'],
-                    unit: 'Bags',
-                    weight: 1.2,
-                    process: 'Injection Molding'
-                },
-                'FP-004': {
-                    name: 'PLASTIC YELLOW CORE',
-                    code: 'FP-004',
-                    category: 'Plastic Components',
-                    materials: ['POLYSTYRENE CLEAR'],
-                    unit: 'Bags',
-                    weight: 3.0,
-                    process: 'Extrusion'
-                },
-                'FP-005': {
-                    name: 'PLASTIC CORE',
-                    code: 'FP-005',
-                    category: 'Plastic Components',
-                    materials: ['HIPS H-IMPACT'],
-                    unit: 'Bags',
-                    weight: 2.5,
-                    process: 'Extrusion'
-                }
-            };
-
-            document.querySelectorAll('.edit-product-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const productId = this.getAttribute('data-product-id');
-                    const product = productDetails[productId];
-                    if (product) {
-                        document.getElementById('editProductName').value = product.name;
-                        document.getElementById('editProductCode').value = product.code;
-                        document.getElementById('editProductCategory').value = product.category;
-                        document.getElementById('editProductMaterials').value = product.materials.join(', ');
-                        document.getElementById('editProductUnit').value = product.unit;
-                        document.getElementById('editProductWeight').value = product.weight;
-                        document.getElementById('editProductProcess').value = product.process;
-
-                        editProductModal.style.display = 'flex';
-                    }
-                });
-            });
-
-            closeEditProductModal.addEventListener('click', () => {
-                editProductModal.style.display = 'none';
-            });
-
-            cancelEditProductModal.addEventListener('click', () => {
-                editProductModal.style.display = 'none';
-            });
-
-            saveEditProduct.addEventListener('click', () => {
-                // Save changes logic here
-                console.log('Product details saved!');
-                editProductModal.style.display = 'none';
-            });
-
-            // Product List Search Functionality
-            const productSearchInput = document.getElementById('productSearchInput');
-            const productTable = document.getElementById('productTable');
-            const productRows = productTable.querySelectorAll('tbody tr');
-
-            productSearchInput.addEventListener('input', function() {
-                const searchTerm = this.value.toLowerCase();
-                productRows.forEach(row => {
-                    const rowText = row.textContent.toLowerCase();
-                    row.style.display = rowText.includes(searchTerm) ? '' : 'none';
+            const searchInput = document.querySelector('.search-input');
+            const table = document.querySelector('.table-section table');
+            if (!searchInput || !table) return;
+            const tbody = table.querySelector('tbody');
+            searchInput.addEventListener('input', function() {
+                const filter = searchInput.value.trim().toLowerCase();
+                Array.from(tbody.rows).forEach(row => {
+                    const text = Array.from(row.cells).map(cell => cell.textContent.toLowerCase()).join(' ');
+                    row.style.display = text.includes(filter) ? '' : 'none';
                 });
             });
         });
-                // Save changes logic here
-                console.log('Product details saved!');
-                editProductModal.style.display = 'none';
-            
 
-            // Product List Search Functionality
-            const productSearchInput = document.getElementById('productSearchInput');
-            const productTable = document.getElementById('productTable');
-            const productRows = productTable.querySelectorAll('tbody tr');
+        // Modal functionality for Add Raw Material
+    document.getElementById('openAddMaterialModal').onclick = function() {
+        document.getElementById('addMaterialModal').style.display = 'flex';
+    };
+    document.getElementById('closeAddMaterialModal').onclick = function() {
+        document.getElementById('addMaterialModal').style.display = 'none';
+    };
+    document.getElementById('cancelAddMaterialModal').onclick = function() {
+        document.getElementById('addMaterialModal').style.display = 'none';
+    };
+    // Optional: Close modal when clicking outside modal-content
+    document.getElementById('addMaterialModal').onclick = function(e) {
+        if (e.target === this) this.style.display = 'none';
+    };
 
-            productSearchInput.addEventListener('input', function() {
-                const searchTerm = this.value.toLowerCase();
-                productRows.forEach(row => {
-                    const rowText = row.textContent.toLowerCase();
-                    row.style.display = rowText.includes(searchTerm) ? '' : 'none';
-                });
-            });
-       
+    // Add Raw Material - Save and update table
+    document.getElementById('saveMaterialBtn').onclick = function() {
+        // Collect form values
+        const name = document.getElementById('materialNameInput').value.trim();
+        const code = document.getElementById('materialCodeInput').value.trim();
+        const category = document.getElementById('categoryInput').value;
+        const unit = document.getElementById('unitInput').value;
+        const quantity = document.getElementById('quantityInput').value.trim();
+        const minLevel = document.getElementById('minLevelInput').value.trim();
+        const reorderQty = document.getElementById('reorderQtyInput').value.trim();
+        const unitCost = document.getElementById('unitCostInput').value.trim();
+        // const supplier = document.getElementById('supplierInput').value; // Not shown in table
+        // const leadTime = document.getElementById('leadTimeInput').value; // Not shown in table
+        // const location = document.getElementById('locationInput').value; // Not shown in table
+
+        // Calculate total value
+        let totalValue = '';
+        if (quantity && unitCost) {
+            totalValue = '$' + (parseFloat(quantity) * parseFloat(unitCost)).toLocaleString();
+        } else {
+            totalValue = '';
+        }
+
+        // Determine status
+        let status = '';
+        if (quantity && minLevel) {
+            const qtyNum = parseFloat(quantity);
+            const minNum = parseFloat(minLevel);
+            if (qtyNum <= 0) {
+                status = '<span class="status-badge critical">Out of Stock</span>';
+            } else if (qtyNum < minNum) {
+                status = '<span class="status-badge low-stock">Low Stock</span>';
+            } else {
+                status = '<span class="status-badge completed">In Stock</span>';
+            }
+        }
+
+        // Format quantity, minLevel, reorderQty with unit
+        const quantityDisplay = quantity ? `${parseFloat(quantity).toLocaleString()} ${unit}` : '';
+        const minLevelDisplay = minLevel ? `${parseFloat(minLevel).toLocaleString()} ${unit}` : '';
+        const reorderQtyDisplay = reorderQty ? `${parseFloat(reorderQty).toLocaleString()} ${unit}` : '';
+        const unitCostDisplay = unitCost ? `$${parseFloat(unitCost).toFixed(2)}` : '';
+
+        // Create new row HTML
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td>${code}</td>
+            <td>${name}</td>
+            <td>${category}</td>
+            <td>${quantityDisplay}</td>
+            <td>${minLevelDisplay}</td>
+            <td>${reorderQtyDisplay}</td>
+            <td>${unitCostDisplay}</td>
+            <td>${totalValue}</td>
+            <td>${status}</td>
+            <td>
+                <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
+                <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;">Update</button>
+            </td>
+        `;
+        document.getElementById('rawMaterialsTableBody').appendChild(newRow);
+
+        // Optionally, reset form fields
+        document.getElementById('materialNameInput').value = '';
+        document.getElementById('materialCodeInput').value = '';
+        document.getElementById('categoryInput').selectedIndex = 0;
+        document.getElementById('unitInput').selectedIndex = 0;
+        document.getElementById('quantityInput').value = '';
+        document.getElementById('minLevelInput').value = '';
+        document.getElementById('reorderQtyInput').value = '';
+        document.getElementById('unitCostInput').value = '';
+        document.getElementById('supplierInput').selectedIndex = 0;
+        document.getElementById('leadTimeInput').value = '';
+        document.getElementById('locationInput').selectedIndex = 0;
+
+        // Close modal
+        document.getElementById('addMaterialModal').style.display = 'none';
+    };
