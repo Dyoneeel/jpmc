@@ -345,4 +345,166 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    // --- Raw Materials Modal Functionality ---
+    // Demo data for raw materials (for view/edit modals)
+    const rawMaterialDetails = {
+        'RM-001': {
+            name: 'PP PROPILINAS',
+            code: 'RM-001',
+            category: 'Resins',
+            stock: '15,500 kg',
+            location: 'Plant 1',
+            status: 'In Stock',
+            images: ['images/pp1.png', 'images/pp2.png', 'images/pp3.png']
+        },
+        'RM-002': {
+            name: 'NYLON',
+            code: 'RM-002',
+            category: 'Resins',
+            stock: '0 kg',
+            location: 'Plant 1',
+            status: 'Out of Stock',
+            images: ['images/nylon1.png', 'images/nylon2.png', 'images/nylon3.png']
+        },
+        'RM-003': {
+            name: 'ABS',
+            code: 'RM-003',
+            category: 'Resins',
+            stock: '2,000 kg',
+            location: 'Plant 2',
+            status: 'In Stock',
+            images: ['images/abs1.png', 'images/abs2.png', 'images/abs3.png']
+        },
+        'RM-004': {
+            name: 'POLYSTYRENE CLEAR',
+            code: 'RM-004',
+            category: 'Resins',
+            stock: '500 kg',
+            location: 'Plant 2',
+            status: 'In Stock',
+            images: ['images/ps1.png', 'images/ps2.png', 'images/ps3.png']
+        },
+        'RM-005': {
+            name: 'HIPS H-IMPACT',
+            code: 'RM-005',
+            category: 'Resins',
+            stock: '0 kg',
+            location: 'Plant 1',
+            status: 'Out of Stock',
+            images: ['images/hips1.png', 'images/hips2.png', 'images/hips3.png']
+        }
+    };
+
+    // View Raw Material Modal
+    const viewRawMaterialModal = document.getElementById('viewRawMaterialModal');
+    const closeViewRawMaterialModal = document.getElementById('closeViewRawMaterialModal');
+    const rawMaterialImageSlider = document.getElementById('rawMaterialImageSlider');
+    const prevRawImageBtn = document.getElementById('prevRawImage');
+    const nextRawImageBtn = document.getElementById('nextRawImage');
+    let currentRawSlide = 0;
+
+    document.querySelectorAll('.view-raw-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const rawId = this.getAttribute('data-raw-id');
+            const raw = rawMaterialDetails[rawId];
+            if (raw) {
+                document.getElementById('rawMaterialName').textContent = raw.name;
+                document.getElementById('rawMaterialCode').textContent = raw.code;
+                document.getElementById('rawMaterialCategory').textContent = raw.category;
+                document.getElementById('rawMaterialStock').textContent = raw.stock;
+                document.getElementById('rawMaterialLocation').textContent = raw.location;
+                document.getElementById('rawMaterialStatus').textContent = raw.status;
+                // Populate slider images
+                if (rawMaterialImageSlider) {
+                    rawMaterialImageSlider.innerHTML = raw.images.map(img => `<img src=\"${img}\" alt=\"${raw.name}\" style=\"width:100%;\">`).join('');
+                    currentRawSlide = 0;
+                    rawMaterialImageSlider.style.transform = `translateX(0)`;
+                }
+                viewRawMaterialModal.style.display = 'flex';
+            }
+        });
+    });
+    if (closeViewRawMaterialModal && viewRawMaterialModal) {
+        closeViewRawMaterialModal.addEventListener('click', () => {
+            viewRawMaterialModal.style.display = 'none';
+        });
+    }
+    if (viewRawMaterialModal) {
+        viewRawMaterialModal.addEventListener('click', (e) => {
+            if (e.target === viewRawMaterialModal) {
+                viewRawMaterialModal.style.display = 'none';
+            }
+        });
+    }
+    if (prevRawImageBtn && nextRawImageBtn && rawMaterialImageSlider) {
+        prevRawImageBtn.addEventListener('click', () => {
+            const slides = rawMaterialImageSlider.children.length;
+            currentRawSlide = (currentRawSlide - 1 + slides) % slides;
+            rawMaterialImageSlider.style.transform = `translateX(-${currentRawSlide * 100}%)`;
+        });
+        nextRawImageBtn.addEventListener('click', () => {
+            const slides = rawMaterialImageSlider.children.length;
+            currentRawSlide = (currentRawSlide + 1) % slides;
+            rawMaterialImageSlider.style.transform = `translateX(-${currentRawSlide * 100}%)`;
+        });
+    }
+
+    // Edit Raw Material Modal
+    const editRawMaterialModal = document.getElementById('editRawMaterialModal');
+    const closeEditRawMaterialModal = document.getElementById('closeEditRawMaterialModal');
+    const cancelEditRawMaterialModal = document.getElementById('cancelEditRawMaterialModal');
+    const saveEditRawMaterial = document.getElementById('saveEditRawMaterial');
+    document.querySelectorAll('.edit-raw-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const rawId = this.getAttribute('data-raw-id');
+            const raw = rawMaterialDetails[rawId];
+            if (raw) {
+                document.getElementById('editRawMaterialName').value = raw.name;
+                document.getElementById('editRawMaterialCode').value = raw.code;
+                document.getElementById('editRawMaterialCategory').value = raw.category;
+                document.getElementById('editRawMaterialStock').value = parseInt(raw.stock.replace(/[^\d]/g, ''));
+                document.getElementById('editRawMaterialLocation').value = raw.location;
+                document.getElementById('editRawMaterialStatus').value = raw.status;
+                editRawMaterialModal.style.display = 'flex';
+            }
+        });
+    });
+    if (closeEditRawMaterialModal && editRawMaterialModal) {
+        closeEditRawMaterialModal.addEventListener('click', () => {
+            editRawMaterialModal.style.display = 'none';
+        });
+    }
+    if (cancelEditRawMaterialModal && editRawMaterialModal) {
+        cancelEditRawMaterialModal.addEventListener('click', () => {
+            editRawMaterialModal.style.display = 'none';
+        });
+    }
+    if (saveEditRawMaterial && editRawMaterialModal) {
+        saveEditRawMaterial.addEventListener('click', () => {
+            // Save changes logic here (not implemented)
+            editRawMaterialModal.style.display = 'none';
+        });
+    }
+    if (editRawMaterialModal) {
+        editRawMaterialModal.addEventListener('click', (e) => {
+            if (e.target === editRawMaterialModal) {
+                editRawMaterialModal.style.display = 'none';
+            }
+        });
+    }
+
+    // --- Raw Materials Search Functionality ---
+    const rawMaterialSearchInput = document.getElementById('rawMaterialSearchInput');
+    const rawMaterialTable = document.getElementById('rawMaterialTable');
+    if (rawMaterialSearchInput && rawMaterialTable) {
+        const rawRows = rawMaterialTable.querySelectorAll('tbody tr');
+        rawMaterialSearchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            rawRows.forEach(row => {
+                const rowText = row.textContent.toLowerCase();
+                row.style.display = rowText.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    }
 });
