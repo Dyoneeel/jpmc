@@ -83,7 +83,10 @@ function initDashboard() {
     if (document.getElementById('inventoryMovementChart') && document.getElementById('stockLevelsChart')) {
         initDashboardCharts();
     }
-    
+
+    // --- Dynamic Stat Cards ---
+    updateDashboardStats();
+
     document.querySelectorAll('#dashboard .chart-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             this.parentElement.querySelectorAll('.chart-btn').forEach(b => b.classList.remove('active'));
@@ -92,13 +95,87 @@ function initDashboard() {
             updateDashboardCharts(this.textContent.trim(), chartId);
         });
     });
-    
+
     const viewAllBtn = document.querySelector('#dashboard .table-actions .btn-primary');
     if (viewAllBtn) {
         viewAllBtn.addEventListener('click', function() {
             const transactionMenuItem = document.querySelector('.menu-item[data-module="transactions"]');
             if(transactionMenuItem) transactionMenuItem.click();
         });
+    }
+}
+
+// --- Demo Data for Stats Calculation ---
+function getDemoTransactions() {
+    // Simulate fetching recent transactions from the table
+    const rows = document.querySelectorAll('#dashboard table tbody tr');
+    let transactions = [];
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        if (cells.length >= 7) {
+            transactions.push({
+                date: cells[0].textContent,
+                id: cells[1].textContent,
+                material: cells[2].textContent,
+                type: cells[3].textContent.includes('OUT') ? 'OUT' : 'IN',
+                quantity: parseInt(cells[4].textContent) || 0,
+                location: cells[5].textContent,
+                balance: parseInt(cells[6].textContent) || 0
+            });
+        }
+    });
+    return transactions;
+}
+
+function getDemoRawMaterials() {
+    // Simulate fetching raw materials from the table
+    const rows = document.querySelectorAll('#rawMaterialTable tbody tr');
+    let materials = [];
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        if (cells.length >= 7) {
+            materials.push({
+                name: cells[1].textContent,
+                stock: parseFloat(cells[4].textContent.replace(/[^0-9.]/g, '')) || 0,
+                status: cells[6].textContent.trim(),
+                unit: (cells[4].textContent.match(/kg|Bags|Pieces/i) || [''])[0]
+            });
+        }
+    });
+    return materials;
+}
+
+function updateDashboardStats() {
+    // Calculate stats from demo data
+    const materials = getDemoRawMaterials();
+    const transactions = getDemoTransactions();
+
+    // Total Inventory Value (simulate with stock * unit cost, assume unit cost = 100 for demo)
+    let totalValue = 0;
+    materials.forEach(mat => {
+        totalValue += mat.stock * 100; // Replace 100 with actual unit cost if available
+    });
+
+    // Materials In/Out (this month, simulate by counting IN/OUT in transactions)
+    let materialsIn = 0, materialsOut = 0;
+    transactions.forEach(trx => {
+        if (trx.type === 'IN') materialsIn += trx.quantity;
+        if (trx.type === 'OUT') materialsOut += trx.quantity;
+    });
+
+    // Low Stock Items (status contains 'Out of Stock' or 'Low Stock')
+    let lowStockCount = materials.filter(mat =>
+        mat.status.toLowerCase().includes('out of stock') ||
+        mat.status.toLowerCase().includes('low stock')
+    ).length;
+
+    // Update DOM
+    const statCards = document.querySelectorAll('.dashboard-grid .stat-card');
+    if (statCards.length >= 4) {
+        statCards[0].querySelector('.stat-value').textContent = '₱' + totalValue.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+        statCards[1].querySelector('.stat-value').textContent = materialsIn + ' Bags';
+        statCards[2].querySelector('.stat-value').textContent = materialsOut + ' Bags';
+        statCards[3].querySelector('.stat-value').textContent = lowStockCount;
     }
 }
 
@@ -339,187 +416,3 @@ function updateReportChart(reportType) {
     chart.update();
 }
 
-
-// =================================================================================
-// MODALS AND FORMS
-// =================================================================================
-
-// --- Data for Modals ---
-const productDetailsView = {
-    'FP-001': { name: '40 SLX Stand cap', code: 'FP-001', category: 'Plastic Components', process: 'Injection Molding', images: ['images/SLX1.png', 'images/SLX2.png', 'images/SLX3.png'] },
-    'FP-002': { name: 'GAS KNOB', code: 'FP-002', category: 'Plastic Components', process: 'Injection Molding', images: ['images/GAS-KNOB1.png', 'images/GAS-KNOB2.png', 'images/GAS-KNOB3.png'] },
-    'FP-003': { name: 'SWITCH KNOB', code: 'FP-003', category: 'Plastic Components', process: 'Injection Molding', images: ['images/SWITCH-KNOB1.png', 'images/SWITCH-KNOB2.png', 'images/SWITCH-KNOB3.png'] },
-    'FP-004': { name: 'PLASTIC YELLOW CORE', code: 'FP-004', category: 'Plastic Components', process: 'Extrusion', images: ['images/fp003_1.jpg', 'images/fp003_2.jpg', 'images/fp003_3.jpg'] },
-    'FP-005': { name: 'PLASTIC CORE', code: 'FP-005', category: 'Plastic Components', process: 'Extrusion', images: ['images/fp003_1.jpg', 'images/fp003_2.jpg', 'images/fp003_3.jpg'] }
-};
-
-const productDetailsEdit = {
-    'FP-001': { name: '40 SLX Stand cap', code: 'FP-001', category: 'Plastic Components', materials: ['PP PROPILINAS'], unit: 'Bags', weight: 1.5, process: 'Injection Molding' },
-    'FP-002': { name: 'GAS KNOB', code: 'FP-002', category: 'Plastic Components', materials: ['NYLON'], unit: 'Bags', weight: 2.0, process: 'Injection Molding' },
-    'FP-003': { name: 'SWITCH KNOB', code: 'FP-003', category: 'Plastic Components', materials: ['ABS'], unit: 'Bags', weight: 1.2, process: 'Injection Molding' },
-    'FP-004': { name: 'PLASTIC YELLOW CORE', code: 'FP-004', category: 'Plastic Components', materials: ['POLYSTYRENE CLEAR'], unit: 'Bags', weight: 3.0, process: 'Extrusion' },
-    'FP-005': { name: 'PLASTIC CORE', code: 'FP-005', category: 'Plastic Components', materials: ['HIPS H-IMPACT'], unit: 'Bags', weight: 2.5, process: 'Extrusion' }
-};
-
-const rawMaterialDetails = {
-    'RM-001': { name: 'PP PROPILINAS', code: 'RM-001', category: 'Resins', stock: '15,500 kg', location: 'Plant 1', status: 'In Stock', images: ['images/pp1.png', 'images/pp2.png', 'images/pp3.png'] },
-    'RM-002': { name: 'NYLON', code: 'RM-002', category: 'Resins', stock: '0 kg', location: 'Plant 1', status: 'Out of Stock', images: ['images/nylon1.png', 'images/nylon2.png', 'images/nylon3.png'] },
-    'RM-003': { name: 'ABS', code: 'RM-003', category: 'Resins', stock: '2,000 kg', location: 'Plant 2', status: 'In Stock', images: ['images/abs1.png', 'images/abs2.png', 'images/abs3.png'] },
-    'RM-004': { name: 'POLYSTYRENE CLEAR', code: 'RM-004', category: 'Resins', stock: '500 kg', location: 'Plant 2', status: 'In Stock', images: ['images/ps1.png', 'images/ps2.png', 'images/ps3.png'] },
-    'RM-005': { name: 'HIPS H-IMPACT', code: 'RM-005', category: 'Resins', stock: '0 kg', location: 'Plant 1', status: 'Out of Stock', images: ['images/hips1.png', 'images/hips2.png', 'images/hips3.png'] }
-};
-
-
-function initModalsAndForms() {
-    document.querySelectorAll('.modal-overlay').forEach(modal => {
-        const closeButton = modal.querySelector('.close-modal');
-        if (closeButton) {
-            closeButton.onclick = () => modal.style.display = 'none';
-        }
-        modal.onclick = (e) => {
-            if (e.target === modal) modal.style.display = 'none';
-        };
-    });
-
-    setupModal('addMaterialModal', 'openAddMaterialModal', 'cancelAddMaterialModal');
-    setupModal('addProductModal', 'openAddProductModal', 'cancelAddProductModal');
-    setupModal('addTransactionModal', 'addTransactionBtn', 'cancelAddTransactionBtn');
-    
-    initViewProductModal();
-    initEditProductModal();
-    initViewRawMaterialModal();
-    initEditRawMaterialModal();
-
-    const addTransactionForm = document.getElementById('addTransactionForm');
-    if (addTransactionForm) {
-        addTransactionForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Transaction recorded successfully!');
-            this.reset();
-            document.getElementById('addTransactionModal').style.display = 'none';
-        });
-    }
-}
-
-function setupModal(modalId, openBtnId, cancelBtnId) {
-    const modal = document.getElementById(modalId);
-    const openBtn = document.getElementById(openBtnId);
-    const cancelBtn = document.getElementById(cancelBtnId);
-
-    if (!modal) return;
-    if (openBtn) openBtn.onclick = () => modal.style.display = 'flex';
-    if (cancelBtn) cancelBtn.onclick = () => modal.style.display = 'none';
-}
-
-function initViewProductModal() {
-    document.querySelectorAll('.view-product-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const product = productDetailsView[this.dataset.productId];
-            if (product) {
-                document.getElementById('productName').textContent = product.name;
-                document.getElementById('productCode').textContent = product.code;
-                document.getElementById('productCategory').textContent = product.category;
-                document.getElementById('productProcess').textContent = product.process;
-                setupImageSlider('productImageSlider', product.images, 'prevImage', 'nextImage');
-                document.getElementById('viewProductModal').style.display = 'flex';
-            }
-        });
-    });
-}
-
-function initEditProductModal() {
-    document.querySelectorAll('.edit-product-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const product = productDetailsEdit[this.dataset.productId];
-            if (product) {
-                document.getElementById('editProductName').value = product.name;
-                document.getElementById('editProductCode').value = product.code;
-                document.getElementById('editProductCategory').value = product.category;
-                document.getElementById('editProductUnit').value = product.unit;
-                document.getElementById('editProductWeight').value = product.weight;
-                document.getElementById('editProductProcess').value = product.process;
-                const materialsSelect = document.getElementById('editProductMaterials');
-                Array.from(materialsSelect.options).forEach(opt => {
-                    opt.selected = product.materials.includes(opt.value);
-                });
-                document.getElementById('editProductModal').style.display = 'flex';
-            }
-        });
-    });
-}
-
-function initViewRawMaterialModal() {
-    document.querySelectorAll('.view-raw-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const raw = rawMaterialDetails[this.dataset.rawId];
-            if (raw) {
-                document.getElementById('rawMaterialName').textContent = raw.name;
-                document.getElementById('rawMaterialCode').textContent = raw.code;
-                document.getElementById('rawMaterialCategory').textContent = raw.category;
-                document.getElementById('rawMaterialStock').textContent = raw.stock;
-                document.getElementById('rawMaterialLocation').textContent = raw.location;
-                document.getElementById('rawMaterialStatus').textContent = raw.status;
-                setupImageSlider('rawMaterialImageSlider', raw.images, 'prevRawImage', 'nextRawImage');
-                document.getElementById('viewRawMaterialModal').style.display = 'flex';
-            }
-        });
-    });
-}
-
-function initEditRawMaterialModal() {
-    document.querySelectorAll('.edit-raw-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const raw = rawMaterialDetails[this.dataset.rawId];
-            if (raw) {
-                document.getElementById('editRawMaterialName').value = raw.name;
-                document.getElementById('editRawMaterialCode').value = raw.code;
-                document.getElementById('editRawMaterialCategory').value = raw.category;
-                document.getElementById('editRawMaterialStock').value = parseInt(raw.stock.replace(/[^\d]/g, '')) || 0;
-                document.getElementById('editRawMaterialLocation').value = raw.location;
-                document.getElementById('editRawMaterialStatus').value = raw.status;
-                document.getElementById('editRawMaterialModal').style.display = 'flex';
-            }
-        });
-    });
-}
-
-function setupImageSlider(sliderId, images, prevBtnId, nextBtnId) {
-    const slider = document.getElementById(sliderId);
-    const prevBtn = document.getElementById(prevBtnId);
-    const nextBtn = document.getElementById(nextBtnId);
-
-    if (!slider || !prevBtn || !nextBtn) return;
-
-    slider.innerHTML = images.map(img => `<img src="${img}" alt="Detail Image" style="width:100%;">`).join('');
-    let currentSlide = 0;
-    const slides = slider.children;
-    if (slides.length === 0) return;
-
-    const updateSlider = () => {
-        slider.style.transform = `translateX(-${currentSlide * 100}%)`;
-    };
-
-    prevBtn.onclick = () => {
-        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-        updateSlider();
-    };
-
-    nextBtn.onclick = () => {
-        currentSlide = (currentSlide + 1) % slides.length;
-        updateSlider();
-    };
-
-    updateSlider();
-}
-
-// =================================================================================
-// HELPER FUNCTIONS
-// =================================================================================
-
-function initDatePickers() {
-    if (typeof flatpickr !== 'undefined') {
-        document.querySelectorAll('.datepicker').forEach(input => {
-            flatpickr(input, { dateFormat: 'Y-m-d', allowInput: true });
-        });
-    }
-}
