@@ -6,20 +6,23 @@
     <title>James Polymer Manufacturing Corporation - Production & Inventory ERP</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="icon" href="logo.png">
 </head>
 <body>
+    <!-- Sidebar Navigation -->
     <div class="sidebar">
         <div class="sidebar-header">
             <div class="company-logo">
-                <img src="logo.png" alt="Company Logo" style="width: 48px; height: 48px; border-radius: 12px; object-fit: contain; display: block;">
+                <img src="logo.png" alt="Company Logo" style="width: 60px; height: 60px; border-radius: 12px; object-fit: contain; display: block;">
             </div>
             <div class="company-name">James Polymer</div>
-            <div class="company-subtitle">Manufacturing Corp</div>
+            <div class="company-subtitle">Manufacturing Corporation</div>
         </div>
         
         <div class="sidebar-menu">
             <div class="menu-section">
-                <div class="menu-section-title">Core Operations</div>
+                <div class="menu-section-title">Inventory Management</div>
                 <div class="menu-item active" data-module="dashboard">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
@@ -40,21 +43,35 @@
                         <i class="fas fa-box"></i>
                         <span>Product List</span>
                     </div>
+                    <div class="menu-item" data-module="transactions">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>Transactions</span>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-module="reports">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reports</span>
+                </div>
+            </div>
+
+            <div class="menu-section">
+                <div class="menu-section-title">System</div>
+                <div class="menu-item" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Main Content Area -->
     <div class="main-content">
         <div class="header">
             <div class="header-left">
                 <h1 class="header-title">Dashboard</h1>
             </div>
            <div class="header-right">
-                <div class="search-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-input" placeholder="Search inventory or production...">
-                </div>
                 <div class="user-profile" style="padding: 8px 12px; border-radius: 12px; display: flex; align-items: center;">
                     <i class="fas fa-user-shield" style="font-size: 1.5rem; color: #2563eb; margin-right: 10px;"></i>
                     <span style="font-weight: 600; color: #475569; font-size: 1rem;">Admin</span>
@@ -63,50 +80,67 @@
         </div>
 
         <div class="content">
+            <!-- Dashboard Module -->
             <div class="module-content active" id="dashboard">
                 <div class="dashboard-grid">
                     <div class="stat-card">
                         <div class="stat-header">
                             <div>
-                                <div class="stat-title">Monthly Production</div>
-                                <div class="stat-subtitle">Total polymer output</div>
-                            </div>
-                            <div class="stat-icon red">
-                                <i class="fas fa-industry"></i>
-                            </div>
-                        </div>
-                        <div class="stat-value">18,750 kg</div>
-                        <div class="stat-change positive">
-                            <i class="fas fa-arrow-up"></i>
-                            <span>15.3% increase from last month</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-header">
-                            <div>
-                                <div class="stat-title">Inventory Value</div>
-                                <div class="stat-subtitle">Total stock worth</div>
+                                <div class="stat-title">Total Inventory Value</div>
+                                <div class="stat-subtitle">Current stock worth</div>
                             </div>
                             <div class="stat-icon blue">
                                 <i class="fas fa-boxes"></i>
                             </div>
                         </div>
-                        <div class="stat-value">$425,800</div>
-                        <div class="stat-change negative">
-                            <i class="fas fa-arrow-down"></i>
-                            <span>2.1% decrease from last month</span>
+                        <div class="stat-value">₱1,245,800</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>5.2% from last month</span>
                         </div>
                     </div>
-    
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div>
+                                <div class="stat-title">Materials In</div>
+                                <div class="stat-subtitle">This month</div>
+                            </div>
+                            <div class="stat-icon green">
+                                <i class="fas fa-arrow-circle-down"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">217 Bags</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>12.7% from last month</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div>
+                                <div class="stat-title">Materials Out</div>
+                                <div class="stat-subtitle">This month</div>
+                            </div>
+                            <div class="stat-icon orange">
+                                <i class="fas fa-arrow-circle-up"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value">189 Bags</div>
+                        <div class="stat-change negative">
+                            <i class="fas fa-arrow-down"></i>
+                            <span>3.5% from last month</span>
+                        </div>
+                    </div>
                     
                     <div class="stat-card">
                         <div class="stat-header">
                             <div>
                                 <div class="stat-title">Low Stock Items</div>
-                                <div class="stat-subtitle">Below safety levels</div>
+                                <div class="stat-subtitle">Needs attention</div>
                             </div>
-                            <div class="stat-icon warning">
+                            <div class="stat-icon red">
                                 <i class="fas fa-exclamation-triangle"></i>
                             </div>
                         </div>
@@ -121,317 +155,98 @@
                 <div class="charts-section">
                     <div class="chart-container">
                         <div class="chart-header">
-                            <div class="chart-title">Production Trends</div>
+                            <div class="chart-title">Inventory Movement</div>
                             <div class="chart-controls">
-                                <button class="chart-btn active">Week</button>
-                                <button class="chart-btn">Month</button>
+                                <button class="chart-btn active">Month</button>
                                 <button class="chart-btn">Quarter</button>
+                                <button class="chart-btn">Year</button>
                             </div>
                         </div>
                         <div class="chart-placeholder">
-                            <canvas id="productionChart" width="100%" height="300"></canvas>
+                            <canvas id="inventoryMovementChart"></canvas>
                         </div>
                     </div>
                     
                     <div class="chart-container">
                         <div class="chart-header">
-                            <div class="chart-title">Inventory Levels</div>
+                            <div class="chart-title">Material Stock Levels</div>
                             <div class="chart-controls">
-                                <button class="chart-btn active">Raw Materials</button>
-                                <button class="chart-btn">Finished Goods</button>
+                                <button class="chart-btn active">All</button>
+                                <button class="chart-btn">Critical</button>
                             </div>
                         </div>
                         <div class="chart-placeholder">
-                            <canvas id="inventoryChart" width="100%" height="300"></canvas>
+                            <canvas id="stockLevelsChart"></canvas>
                         </div>
                     </div>
                 </div>
                 
                 <div class="table-section">
                     <div class="table-header">
-                        <div class="table-title">Critical Inventory Items</div>
+                        <div class="table-title">Recent Transactions</div>
                         <div class="table-actions">
                             <button class="btn btn-outline">Export</button>
-                            <button class="btn btn-primary">Create Reorder</button>
+                            <button class="btn btn-primary">View All</button>
                         </div>
                     </div>
                     <div class="table-responsive">
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Item Code</th>
-                                    <th>Material Name</th>
-                                    <th>Current Stock</th>
-                                    <th>Min Level</th>
-                                    <th>Reorder Qty</th>
-                                    <th>Lead Time</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>RM-005</td>
-                                    <td>Polypropylene Resin</td>
-                                    <td>1,200 kg</td>
-                                    <td>2,500 kg</td>
-                                    <td>5,000 kg</td>
-                                    <td>7 days</td>
-                                    <td><span class="status-badge critical">Critical</span></td>
-                                    <td>
-                                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;">Reorder</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>RM-012</td>
-                                    <td>PVC Stabilizer</td>
-                                    <td>350 kg</td>
-                                    <td>500 kg</td>
-                                    <td>1,000 kg</td>
-                                    <td>14 days</td>
-                                    <td><span class="status-badge low-stock">Low Stock</span></td>
-                                    <td>
-                                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;">Reorder</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>RM-008</td>
-                                    <td>Color Masterbatch</td>
-                                    <td>180 kg</td>
-                                    <td>300 kg</td>
-                                    <td>500 kg</td>
-                                    <td>10 days</td>
-                                    <td><span class="status-badge low-stock">Low Stock</span></td>
-                                    <td>
-                                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;">Reorder</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="module-content" id="production">
-                <div class="form-section">
-                    <div class="form-header">
-                        <h2 class="form-title">Create New Work Order</h2>
-                    </div>
-                    
-                    <div class="production-steps">
-                        <div class="production-step active">
-                            <div class="step-number">1</div>
-                            <div class="step-label">Product Details</div>
-                        </div>
-                        <div class="production-step">
-                            <div class="step-number">2</div>
-                            <div class="step-label">Materials</div>
-                        </div>
-                        <div class="production-step">
-                            <div class="step-number">3</div>
-                            <div class="step-label">Scheduling</div>
-                        </div>
-                        <div class="production-step">
-                            <div class="step-number">4</div>
-                            <div class="step-label">Review</div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Product Type</label>
-                            <select class="form-input">
-                                <option>Select Product Type</option>
-                                <option>Polyethylene Sheets</option>
-                                <option>PVC Compounds</option>
-                                <option>Polypropylene Films</option>
-                                <option>Polymer Granules</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Quantity (kg)</label>
-                            <input type="number" class="form-input" placeholder="Enter quantity">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Production Date</label>
-                            <input type="date" class="form-input">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Priority Level</label>
-                            <select class="form-input">
-                                <option>High</option>
-                                <option>Medium</option>
-                                <option>Low</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Machine Assignment</label>
-                            <select class="form-input">
-                                <option>Extruder Line 1</option>
-                                <option>Extruder Line 2</option>
-                                <option>Injection Molding Unit A</option>
-                                <option>Injection Molding Unit B</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Operator</label>
-                            <select class="form-input">
-                                <option>John Smith</option>
-                                <option>Sarah Johnson</option>
-                                <option>Mike Chen</option>
-                                <option>Lisa Rodriguez</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Estimated Duration (hours)</label>
-                            <input type="number" class="form-input" placeholder="Enter duration">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Quality Standards</label>
-                            <select class="form-input">
-                                <option>Standard Grade</option>
-                                <option>Premium Grade</option>
-                                <option>Food Grade</option>
-                                <option>Medical Grade</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Notes</label>
-                            <textarea class="form-input" rows="3" placeholder="Additional production notes..."></textarea>
-                        </div>
-                    </div>
-                    <div style="margin-top: 25px;">
-                        <button class="btn btn-primary">Next: Materials</button>
-                        <button class="btn btn-outline">Save as Draft</button>
-                    </div>
-                </div>
-
-                <div class="table-section">
-                    <div class="table-header">
-                        <div class="table-title">Active Production Orders</div>
-                        <div class="table-actions">
-                            <button class="btn btn-outline">Export Schedule</button>
-                            <button class="btn btn-primary">Optimize Schedule</button>
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Order ID</th>
-                                    <th>Product</th>
-                                    <th>Machine</th>
-                                    <th>Operator</th>
-                                    <th>Quantity</th>
-                                    <th>Start Time</th>
-                                    <th>End Time</th>
-                                    <th>Status</th>
-                                    <th>Progress</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>PO-001</td>
-                                    <td>Polyethylene Sheets</td>
-                                    <td>Extruder Line 1</td>
-                                    <td>John Smith</td>
-                                    <td>2,500 kg</td>
-                                    <td>08:00</td>
-                                    <td>16:00</td>
-                                    <td><span class="status-badge processing">In Progress</span></td>
-                                    <td>75%</td>
-                                    <td>
-                                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">Monitor</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>PO-002</td>
-                                    <td>PVC Compounds</td>
-                                    <td>Injection Molding Unit A</td>
-                                    <td>Sarah Johnson</td>
-                                    <td>1,800 kg</td>
-                                    <td>16:30</td>
-                                    <td>23:30</td>
-                                    <td><span class="status-badge pending">Scheduled</span></td>
-                                    <td>0%</td>
-                                    <td>
-                                        <button class="btn btn-primary" style="padding: 5px 10px; font-size: 0.8rem;">Start</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="module-content" id="inventory">
-                <div class="table-section">
-                    <div class="table-header">
-                        <div class="table-title">Inventory Movements</div>
-                        <div class="table-actions">
-                            <button class="btn btn-outline">Export Report</button>
-                            <button class="btn btn-primary">New Transaction</button>
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table>
-                            <thead>
-                                <tr>
+                                    <th>Date</th>
                                     <th>Transaction ID</th>
-                                    <th>Item Code</th>
-                                    <th>Item Name</th>
+                                    <th>Material</th>
                                     <th>Type</th>
                                     <th>Quantity</th>
-                                    <th>From</th>
-                                    <th>To</th>
-                                    <th>Date</th>
-                                    <th>Actions</th>
+                                    <th>Location</th>
+                                    <th>Balance</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>TRX-001</td>
-                                    <td>RM-001</td>
-                                    <td>Polyethylene Resin</td>
-                                    <td>Production Issue</td>
-                                    <td>-500 kg</td>
-                                    <td>Warehouse A</td>
-                                    <td>Production Line 1</td>
-                                    <td>2024-07-15</td>
-                                    <td>
-                                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
-                                    </td>
+                                    <td>05/30/2025</td>
+                                    <td>TRX-2025-0530-001</td>
+                                    <td>H-Impact (White)</td>
+                                    <td><span class="badge out">OUT</span></td>
+                                    <td>4 Bags</td>
+                                    <td>Plant 1</td>
+                                    <td>0 Bag</td>
                                 </tr>
                                 <tr>
-                                    <td>TRX-002</td>
-                                    <td>FP-001</td>
-                                    <td>Polyethylene Sheets</td>
-                                    <td>Production Receipt</td>
-                                    <td>+2,500 kg</td>
-                                    <td>Production Line 1</td>
-                                    <td>Finished Goods</td>
-                                    <td>2024-07-15</td>
-                                    <td>
-                                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
-                                    </td>
+                                    <td>05/29/2025</td>
+                                    <td>TRX-2025-0529-001</td>
+                                    <td>H-Impact (White)</td>
+                                    <td><span class="badge out">OUT</span></td>
+                                    <td>6 Bags</td>
+                                    <td>Plant 1</td>
+                                    <td>4 Bags</td>
                                 </tr>
                                 <tr>
-                                    <td>TRX-003</td>
-                                    <td>RM-002</td>
-                                    <td>PVC Powder</td>
-                                    <td>Purchase Receipt</td>
-                                    <td>+3,000 kg</td>
-                                    <td>Supplier</td>
-                                    <td>Warehouse B</td>
-                                    <td>2024-07-14</td>
-                                    <td>
-                                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
-                                    </td>
+                                    <td>05/28/2025</td>
+                                    <td>TRX-2025-0528-001</td>
+                                    <td>H-Impact (White)</td>
+                                    <td><span class="badge out">OUT</span></td>
+                                    <td>5 Bags</td>
+                                    <td>Plant 1</td>
+                                    <td>10 Bags</td>
+                                </tr>
+                                <tr>
+                                    <td>05/27/2025</td>
+                                    <td>TRX-2025-0527-001</td>
+                                    <td>Nylon (White)</td>
+                                    <td><span class="badge out">OUT</span></td>
+                                    <td>1 Bag</td>
+                                    <td>Plant 1</td>
+                                    <td>1 Bag</td>
+                                </tr>
+                                <tr>
+                                    <td>05/27/2025</td>
+                                    <td>TRX-2025-0527-002</td>
+                                    <td>HIPS H-Impact (White)</td>
+                                    <td><span class="badge out">OUT</span></td>
+                                    <td>4 Bags</td>
+                                    <td>Plant 1</td>
+                                    <td>70 Bags</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -441,101 +256,16 @@
 
             <!-- Raw Materials Module -->
             <div class="module-content" id="raw-materials">
-
-                <!-- Modal for Add Raw Material -->
-                <div id="addMaterialModal" class="modal-overlay" style="display:none;">
-                    <div class="modal-content">
-                        <span class="close-modal" id="closeAddMaterialModal">&times;</span>
-                        <div class="form-section" style="box-shadow:none; border:none; margin-bottom:0;">
-                            <div class="form-header">
-                                <h2 class="form-title">Add Raw Material</h2>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Material Name</label>
-                                    <input type="text" class="form-input" placeholder="Enter material name">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Material Code</label>
-                                    <input type="text" class="form-input" placeholder="Enter material code">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Category</label>
-                                    <select class="form-input">
-                                        <option>Resins</option>
-                                        <option>Additives</option>
-                                        <option>Colorants</option>
-                                        <option>Stabilizers</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Unit of Measure</label>
-                                    <select class="form-input">
-                                        <option>kg</option>
-                                        <option>lb</option>
-                                        <option>g</option>
-                                        <option>L</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Initial Quantity</label>
-                                    <input type="number" class="form-input" placeholder="Enter initial quantity">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Minimum Stock Level</label>
-                                    <input type="number" class="form-input" placeholder="Enter minimum level">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Reorder Quantity</label>
-                                    <input type="number" class="form-input" placeholder="Enter reorder quantity">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Unit Cost</label>
-                                    <input type="number" step="0.01" class="form-input" placeholder="Enter unit cost">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Preferred Supplier</label>
-                                    <select class="form-input">
-                                        <option>Select Supplier</option>
-                                        <option>ChemCorp Industries</option>
-                                        <option>PlastiSource Ltd.</option>
-                                        <option>Polymer Solutions Inc.</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Lead Time (days)</label>
-                                    <input type="number" class="form-input" placeholder="Enter lead time">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Storage Location</label>
-                                    <select class="form-input">
-                                        <option>Warehouse A</option>
-                                        <option>Warehouse B</option>
-                                        <option>Production Storage</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div style="margin-top: 25px;">
-                                <button class="btn btn-primary">Save Material</button>
-                                <button class="btn btn-outline" type="button" id="cancelAddMaterialModal">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Modal -->
-
                 <div class="table-section">
                     <div class="table-header" style="display: flex; justify-content: space-between; align-items: center;">
                         <div class="search-container" style="position: relative; display: inline-block;">
-                            <i class="fas fa-search search-icon" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--gray); font-size: 16px;"></i>
-                            <input type="text" id="rawMaterialSearchInput" class="search-input" placeholder="Search raw materials..." style="padding-left: 35px; width: 250px;">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" id="rawMaterialSearchInput" class="search-input" placeholder="Search raw materials...">
                         </div>
                         <div class="table-title" style="text-align: center; flex-grow: 1;">Raw Materials Inventory</div>
-                        <button class="btn btn-primary" id="openAddMaterialModal">Add Raw Material</button>
+                        <button class="btn btn-primary" id="openAddMaterialModal">
+    <i class="fas fa-plus"></i> Add Material
+</button>
                     </div>
                     <div class="table-responsive">
                         <table id="rawMaterialTable">
@@ -561,8 +291,8 @@
                                     <td>Plant 1</td>
                                     <td><span class="status-badge completed">In Stock</span></td>
                                     <td>
-                                        <button class="btn btn-outline view-raw-btn" data-raw-id="RM-001" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
-                                        <button class="btn btn-primary edit-raw-btn" data-raw-id="RM-001" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
+                                        <button class="btn btn-outline view-raw-btn" data-raw-id="RM-001">View</button>
+                                        <button class="btn btn-primary edit-raw-btn" data-raw-id="RM-001">Edit</button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -574,8 +304,8 @@
                                     <td>Plant 1</td>
                                     <td><span class="status-badge cancelled">Out of Stock</span></td>
                                     <td>
-                                        <button class="btn btn-outline view-raw-btn" data-raw-id="RM-002" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
-                                        <button class="btn btn-primary edit-raw-btn" data-raw-id="RM-002" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
+                                        <button class="btn btn-outline view-raw-btn" data-raw-id="RM-002">View</button>
+                                        <button class="btn btn-primary edit-raw-btn" data-raw-id="RM-002">Edit</button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -587,8 +317,8 @@
                                     <td>Plant 2</td>
                                     <td><span class="status-badge completed">In Stock</span></td>
                                     <td>
-                                        <button class="btn btn-outline view-raw-btn" data-raw-id="RM-003" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
-                                        <button class="btn btn-primary edit-raw-btn" data-raw-id="RM-003" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
+                                        <button class="btn btn-outline view-raw-btn" data-raw-id="RM-003">View</button>
+                                        <button class="btn btn-primary edit-raw-btn" data-raw-id="RM-003">Edit</button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -600,8 +330,8 @@
                                     <td>Plant 2</td>
                                     <td><span class="status-badge completed">In Stock</span></td>
                                     <td>
-                                        <button class="btn btn-outline view-raw-btn" data-raw-id="RM-004" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
-                                        <button class="btn btn-primary edit-raw-btn" data-raw-id="RM-004" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
+                                        <button class="btn btn-outline view-raw-btn" data-raw-id="RM-004">View</button>
+                                        <button class="btn btn-primary edit-raw-btn" data-raw-id="RM-004">Edit</button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -613,129 +343,28 @@
                                     <td>Plant 1</td>
                                     <td><span class="status-badge cancelled">Out of Stock</span></td>
                                     <td>
-                                        <button class="btn btn-outline view-raw-btn" data-raw-id="RM-005" style="padding: 5px 10px; font-size: 0.8rem;">View</button>
-                                        <button class="btn btn-primary edit-raw-btn" data-raw-id="RM-005" style="padding: 5px 10px; font-size: 0.8rem;">Edit</button>
+                                        <button class="btn btn-outline view-raw-btn" data-raw-id="RM-005">View</button>
+                                        <button class="btn btn-primary edit-raw-btn" data-raw-id="RM-005">Edit</button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-
-                <!-- View Raw Material Modal -->
-                <div id="viewRawMaterialModal" class="modal-overlay" style="display:none;">
-                    <div class="modal-content">
-                        <span class="close-modal" id="closeViewRawMaterialModal">&times;</span>
-                        <div class="form-section" style="box-shadow:none; border:none; margin-bottom:0;">
-                            <div class="form-header">
-                                <h2 class="form-title">Raw Material Details</h2>
-                            </div>
-                            <div class="slider-container">
-                                <div class="slider" id="rawMaterialImageSlider">
-                                    <!-- Images will be dynamically added here -->
-                                </div>
-                                <div class="slider-controls">
-                                    <button class="slider-btn" id="prevRawImage"><i class="fa-solid fa-chevron-left"></i></button>
-                                    <button class="slider-btn" id="nextRawImage"><i class="fa-solid fa-chevron-right"></i></button>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Material Name</label>
-                                    <p id="rawMaterialName" class="form-input" style="border:none; background:none;"></p>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Material Code</label>
-                                    <p id="rawMaterialCode" class="form-input" style="border:none; background:none;"></p>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Category</label>
-                                    <p id="rawMaterialCategory" class="form-input" style="border:none; background:none;"></p>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Stock</label>
-                                    <p id="rawMaterialStock" class="form-input" style="border:none; background:none;"></p>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Location</label>
-                                    <p id="rawMaterialLocation" class="form-input" style="border:none; background:none;"></p>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Status</label>
-                                    <p id="rawMaterialStatus" class="form-input" style="border:none; background:none;"></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Edit Raw Material Modal -->
-                <div id="editRawMaterialModal" class="modal-overlay" style="display:none;">
-                    <div class="modal-content">
-                        <span class="close-modal" id="closeEditRawMaterialModal">&times;</span>
-                        <div class="form-section" style="box-shadow:none; border:none; margin-bottom:0;">
-                            <div class="form-header">
-                                <h2 class="form-title">Edit Raw Material</h2>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Material Name</label>
-                                    <input type="text" id="editRawMaterialName" class="form-input" placeholder="Enter material name">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Material Code</label>
-                                    <input type="text" id="editRawMaterialCode" class="form-input" placeholder="Enter material code">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Category</label>
-                                    <select id="editRawMaterialCategory" class="form-input">
-                                        <option>Resins</option>
-                                        <option>Additives</option>
-                                        <option>Colorants</option>
-                                        <option>Stabilizers</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Stock</label>
-                                    <input type="number" id="editRawMaterialStock" class="form-input" placeholder="Enter stock">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Location</label>
-                                    <input type="text" id="editRawMaterialLocation" class="form-input" placeholder="Enter location">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Status</label>
-                                    <select id="editRawMaterialStatus" class="form-input">
-                                        <option>In Stock</option>
-                                        <option>Out of Stock</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div style="margin-top: 25px;">
-                                <button class="btn btn-primary" id="saveEditRawMaterial">Save Changes</button>
-                                <button class="btn btn-outline" type="button" id="cancelEditRawMaterialModal">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Edit Table Modal -->
             </div>
 
             <!-- Finished Goods Module -->
             <div class="module-content" id="finished-goods">
-                <!-- Product List Section -->
                 <div class="table-section">
                     <div class="table-header" style="display: flex; justify-content: space-between; align-items: center;">
                         <div class="search-container" style="position: relative; display: inline-block;">
-                            <i class="fas fa-search search-icon" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--gray); font-size: 16px;"></i>
-                            <input type="text" id="productSearchInput" class="search-input" placeholder="Search products..." style="padding-left: 35px; width: 250px;">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" id="productSearchInput" class="search-input" placeholder="Search products...">
                         </div>
                         <div class="table-title" style="text-align: center; flex-grow: 1;">Finished Products</div>
-                        <button class="btn btn-primary" id="openAddProductModal">Add New Product</button>
+                        <button class="btn btn-primary" id="openAddProductModal">
+    <i class="fas fa-plus"></i> Add New Product
+</button>
                     </div>
                     <div class="table-responsive">
                         <table id="productTable">
@@ -815,161 +444,457 @@
                         </table>
                     </div>
                 </div>
+            </div>
 
-                <!-- Modal for Add Product -->
-                <div id="addProductModal" class="modal-overlay" style="display:none;">
-                    <div class="modal-content">
-                        <span class="close-modal" id="closeAddProductModal">&times;</span>
-                        <div class="form-section" style="box-shadow:none; border:none; margin-bottom:0;">
-                            <div class="form-header">
-                                <h2 class="form-title">Add New Product</h2>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Product Name</label>
-                                    <input type="text" class="form-input" placeholder="Enter product name">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Category</label>
-                                    <select class="form-input">
-                                        <option>Plastic Components</option>
-                                        <option>Rubber Components</option>
-                                        <option>Composite Materials</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Raw Material Used</label>
-                                    <input type="text" class="form-input" list="rawMaterialOptions" placeholder="Type or select raw material">
-                                    <datalist id="rawMaterialOptions">
-                                        <option value="PP PROPILINAS"></option>
-                                        <option value="NYLON"></option>
-                                        <option value="ABS"></option>
-                                        <option value="POLYSTYRENE CLEAR"></option>
-                                        <option value="HIPS H-IMPACT"></option>
-                                    </datalist>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Number of Stock</label>
-                                    <input type="number" class="form-input" placeholder="Enter number of stock">
-                                </div>
-                            </div>
-                            <div style="margin-top: 25px;">
-                                <button class="btn btn-primary">Save Product</button>
-                                <button class="btn btn-outline" type="button" id="cancelAddProductModal">Cancel</button>
-                            </div>
-                        </div>
+            <!-- Transactions Module -->
+            <div class="module-content" id="transactions">
+                <div class="section-header">
+                    <h2>Material Transactions</h2>
+                    <div class="actions">
+                        <button class="btn btn-primary" id="addTransactionBtn">
+                            <i class="fas fa-plus"></i> New Transaction
+                        </button>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-file-export"></i> Export
+                        </button>
                     </div>
                 </div>
 
-                <!-- Modal for Viewing Product Details -->
-                <div id="viewProductModal" class="modal-overlay" style="display:none;">
-    <div class="modal-content">
-        <span class="close-modal" id="closeViewProductModal">&times;</span>
-        <div class="form-section" style="box-shadow:none; border:none; margin-bottom:0;">
-            <div class="form-header">
-                <h2 class="form-title">Product Details</h2>
+                <div class="transaction-filters">
+                    <div class="filter-group">
+                        <label for="transTypeFilter">Transaction Type:</label>
+                        <select id="transTypeFilter">
+                            <option value="all">All</option>
+                            <option value="in">Material In</option>
+                            <option value="out">Material Out</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="transMaterialFilter">Material:</label>
+                        <select id="transMaterialFilter">
+                            <option value="all">All Materials</option>
+                            <option value="pp">PP Propilinas</option>
+                            <option value="nylon">Nylon</option>
+                            <option value="abs">ABS</option>
+                            <option value="polystyrene">Polystyrene</option>
+                            <option value="hips">HIPS H-Impact</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="transDateFrom">From:</label>
+                        <input type="text" id="transDateFrom" class="datepicker" placeholder="Select date...">
+                    </div>
+                    <div class="filter-group">
+                        <label for="transDateTo">To:</label>
+                        <input type="text" id="transDateTo" class="datepicker" placeholder="Select date...">
+                    </div>
+                    <button class="btn btn-primary" id="applyTransactionFilters">
+                        <i class="fas fa-filter"></i> Apply Filters
+                    </button>
+                </div>
+
+                <div class="transactions-table table-section">
+                    <div class="table-responsive">
+                        <table id="transactionTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Transaction ID</th>
+                                    <th>Material</th>
+                                    <th>Product Used</th>
+                                    <th>Type</th>
+                                    <th>Quantity</th>
+                                    <th>Location</th>
+                                    <th>Balance</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>05/30/2025</td>
+                                    <td>TRX-2025-0530-001</td>
+                                    <td>H-Impact (White)</td>
+                                    <td>Plastic Core (Medium)</td>
+                                    <td><span class="badge out">OUT</span></td>
+                                    <td>4 Bags</td>
+                                    <td>Plant 1</td>
+                                    <td>0 Bag</td>
+                                    <td>
+                                        <button class="btn-icon" title="View Details"><i class="fas fa-eye"></i></button>
+                                        <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>05/29/2025</td>
+                                    <td>TRX-2025-0529-001</td>
+                                    <td>H-Impact (White)</td>
+                                    <td>Plastic Core (Medium)</td>
+                                    <td><span class="badge out">OUT</span></td>
+                                    <td>6 Bags</td>
+                                    <td>Plant 1</td>
+                                    <td>4 Bags</td>
+                                    <td>
+                                        <button class="btn-icon" title="View Details"><i class="fas fa-eye"></i></button>
+                                        <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>05/28/2025</td>
+                                    <td>TRX-2025-0528-001</td>
+                                    <td>H-Impact (White)</td>
+                                    <td>Plastic Core (Small)</td>
+                                    <td><span class="badge out">OUT</span></td>
+                                    <td>5 Bags</td>
+                                    <td>Plant 1</td>
+                                    <td>10 Bags</td>
+                                    <td>
+                                        <button class="btn-icon" title="View Details"><i class="fas fa-eye"></i></button>
+                                        <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="pagination">
+                    <button class="btn btn-outline" disabled><i class="fas fa-chevron-left"></i> Previous</button>
+                    <span>Page 1 of 3</span>
+                    <button class="btn btn-outline">Next <i class="fas fa-chevron-right"></i></button>
+                </div>
             </div>
-            <div class="slider-container">
-                <div class="slider" id="productImageSlider">
-                    <!-- Images will be dynamically added here -->
+
+            <!-- Reports Module -->
+            <div class="module-content" id="reports">
+                <div class="section-header">
+                    <h2>Inventory Reports</h2>
+                    <div class="actions">
+                        <button class="btn btn-primary" id="generateReportBtn">
+                            <i class="fas fa-file-pdf"></i> Generate PDF
+                        </button>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-file-excel"></i> Export Excel
+                        </button>
+                    </div>
                 </div>
-                <div class="slider-controls">
-                    <button class="slider-btn" id="prevImage"><i class="fa-solid fa-chevron-left"></i></button>
-                    <button class="slider-btn" id="nextImage"><i class="fa-solid fa-chevron-right"></i></button>
+
+                <div class="report-filters">
+                    <div class="filter-group">
+                        <label for="reportType">Report Type:</label>
+                        <select id="reportType">
+                            <option value="inventory">Inventory Summary</option>
+                            <option value="transactions">Transaction Log</option>
+                            <option value="monthly">Monthly Summary</option>
+                            <option value="lowstock">Low Stock Report</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="reportPeriod">Period:</label>
+                        <select id="reportPeriod">
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month" selected>This Month</option>
+                            <option value="quarter">This Quarter</option>
+                            <option value="year">This Year</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                    </div>
+                    <div class="filter-group custom-range" style="display: none;">
+                        <label for="reportDateFrom">From:</label>
+                        <input type="date" id="reportDateFrom" class="datepicker">
+                    </div>
+                    <div class="filter-group custom-range" style="display: none;">
+                        <label for="reportDateTo">To:</label>
+                        <input type="date" id="reportDateTo" class="datepicker">
+                    </div>
+                    <button class="btn btn-primary" id="generateReportBtn">
+                        <i class="fas fa-filter"></i> Generate Report
+                    </button>
+                </div>
+
+                <div class="report-results">
+                    <h3>Monthly Inventory Report - May 2025</h3>
+                    <div class="report-summary">
+                        <div class="summary-item">
+                            <h4>Total Inventory</h4>
+                            <p>217 Bags</p>
+                        </div>
+                        <div class="summary-item">
+                            <h4>Materials In</h4>
+                            <p>0 Bags</p>
+                        </div>
+                        <div class="summary-item">
+                            <h4>Materials Out</h4>
+                            <p>45 Bags</p>
+                        </div>
+                        <div class="summary-item">
+                            <h4>Low Stock Items</h4>
+                            <p>5 Items</p>
+                        </div>
+                    </div>
+
+                    <div class="report-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>In</th>
+                                    <th>Out</th>
+                                    <th>Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>GAS KNOB (10 Bags)</td>
+                                    <td>0</td>
+                                    <td>9 Bags</td>
+                                    <td>1 Bag</td>
+                                </tr>
+                                <tr>
+                                    <td>PLASTIC CORE (75 Bags)</td>
+                                    <td>0</td>
+                                    <td>5 Bags</td>
+                                    <td>70 Bags</td>
+                                </tr>
+                                <tr>
+                                    <td>SWITCH KNOB (7 Bags)</td>
+                                    <td>0</td>
+                                    <td>6 Bags</td>
+                                    <td>1 Bag</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="report-chart">
+                        <canvas id="reportChart"></canvas>
+                    </div>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="form-label">Product Name</label>
-                    <p id="productName" class="form-input" style="border:none; background:none;"></p>
+
+        </div> <!-- end .content -->
+    </div> <!-- end .main-content -->
+
+    <!-- Modals -->
+    <div id="addMaterialModal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <span class="close-modal" id="closeAddMaterialModal">&times;</span>
+            <div class="form-section" style="box-shadow:none; border:none; margin-bottom:0;">
+                <div class="form-header"><h2 class="form-title">Add Raw Material</h2></div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Material Name</label>
+                        <input type="text" class="form-input" placeholder="Enter material name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Code/Blue</label>
+                        <input type="text" class="form-input" placeholder="Enter code/blue">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">No. of Bags</label>
+                        <input type="text" class="form-input" placeholder="Enter number of bags">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Product Code</label>
-                    <p id="productCode" class="form-input" style="border:none; background:none;"></p>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Unit Cost</label>
+                        <input type="number" step="0.01" class="form-input" placeholder="Enter unit cost">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Category</label>
-                    <p id="productCategory" class="form-input" style="border:none; background:none;"></p>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Storage Location</label>
+                        <select class="form-input">
+                            <option>Plant 1</option>
+                            <option>Plant 2</option>
+                            <option>Plant 3</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Production Process</label>
-                    <p id="productProcess" class="form-input" style="border:none; background:none;"></p>
+                <div style="margin-top: 25px;">
+                    <button class="btn btn-primary">Save Material</button>
+                    <button class="btn btn-outline" type="button" id="cancelAddMaterialModal">Cancel</button>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-                <!-- Modal for Editing Product Details -->
-                <div id="editProductModal" class="modal-overlay" style="display:none;">
-    <div class="modal-content">
-        <span class="close-modal" id="closeEditProductModal">&times;</span>
-        <div class="form-section" style="box-shadow:none; border:none; margin-bottom:0;">
-            <div class="form-header">
-                <h2 class="form-title">Edit Product</h2>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="form-label">Product Name</label>
-                    <input type="text" id="editProductName" class="form-input" placeholder="Enter product name">
+    
+    <div id="viewRawMaterialModal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <span class="close-modal" id="closeViewRawMaterialModal">&times;</span>
+            <div class="form-section" style="box-shadow:none; border:none; margin-bottom:0;">
+                <div class="form-header"><h2 class="form-title">Raw Material Details</h2></div>
+                <div class="slider-container"><div class="slider" id="rawMaterialImageSlider"></div><div class="slider-controls"><button class="slider-btn" id="prevRawImage"><i class="fa-solid fa-chevron-left"></i></button><button class="slider-btn" id="nextRawImage"><i class="fa-solid fa-chevron-right"></i></button></div></div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Material Name</label><p id="rawMaterialName" class="form-input" style="border:none; background:none;"></p></div>
+                    <div class="form-group"><label class="form-label">Material Code</label><p id="rawMaterialCode" class="form-input" style="border:none; background:none;"></p></div>
+                    <div class="form-group"><label class="form-label">Category</label><p id="rawMaterialCategory" class="form-input" style="border:none; background:none;"></p></div>
+                    <div class="form-group"><label class="form-label">Stock</label><p id="rawMaterialStock" class="form-input" style="border:none; background:none;"></p></div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Product Code</label>
-                    <input type="text" id="editProductCode" class="form-input" placeholder="Enter product code">
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Location</label><p id="rawMaterialLocation" class="form-input" style="border:none; background:none;"></p></div>
+                    <div class="form-group"><label class="form-label">Status</label><p id="rawMaterialStatus" class="form-input" style="border:none; background:none;"></p></div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Category</label>
-                    <select id="editProductCategory" class="form-input">
-                        <option>Plastic Components</option>
-                        <option>Rubber Components</option>
-                        <option>Composite Materials</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="form-label">Raw Material Used</label>
-                    <select id="editProductMaterials" class="form-input" multiple>
-                        <option>PP PROPILINAS</option>
-                        <option>NYLON</option>
-                        <option>ABS</option>
-                        <option>POLYSTYRENE CLEAR</option>
-                        <option>HIPS H-IMPACT</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Unit of Measure</label>
-                    <select id="editProductUnit" class="form-input">
-                        <option>kg</option>
-                        <option>Bags</option>
-                        <option>Pieces</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="form-label">Standard Weight</label>
-                    <input type="number" id="editProductWeight" class="form-input" placeholder="Enter weight per unit">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Production Process</label>
-                    <select id="editProductProcess" class="form-input">
-                        <option>Injection Molding</option>
-                        <option>Extrusion</option>
-                        <option>Compression Molding</option>
-                    </select>
-                </div>
-            </div>
-            <div style="margin-top: 25px;">
-                <button class="btn btn-primary" id="saveEditProduct">Save Changes</button>
-                <button class="btn btn-outline" type="button" id="cancelEditProductModal">Cancel</button>
             </div>
         </div>
     </div>
-</div>
+    
+    <div id="editRawMaterialModal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <span class="close-modal" id="closeEditRawMaterialModal">&times;</span>
+            <div class="form-section" style="box-shadow:none; border:none; margin-bottom:0;">
+                <div class="form-header"><h2 class="form-title">Edit Raw Material</h2></div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Material Name</label><input type="text" id="editRawMaterialName" class="form-input" placeholder="Enter material name"></div>
+                    <div class="form-group"><label class="form-label">Material Code</label><input type="text" id="editRawMaterialCode" class="form-input" placeholder="Enter material code"></div>
+                    <div class="form-group"><label class="form-label">Category</label><select id="editRawMaterialCategory" class="form-input"><option>Resins</option><option>Additives</option><option>Colorants</option><option>Stabilizers</option></select></div>
+                    <div class="form-group"><label class="form-label">Stock</label><input type="number" id="editRawMaterialStock" class="form-input" placeholder="Enter stock"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Location</label><input type="text" id="editRawMaterialLocation" class="form-input" placeholder="Enter location"></div>
+                    <div class="form-group"><label class="form-label">Status</label><select id="editRawMaterialStatus" class="form-input"><option>In Stock</option><option>Out of Stock</option></select></div>
+                </div>
+                <div style="margin-top: 25px;"><button class="btn btn-primary" id="saveEditRawMaterial">Save Changes</button><button class="btn btn-outline" type="button" id="cancelEditRawMaterialModal">Cancel</button></div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="addProductModal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <span class="close-modal" id="closeAddProductModal">&times;</span>
+            <div class="form-section" style="box-shadow:none; border:none; margin-bottom:0;">
+                <div class="form-header"><h2 class="form-title">Add New Product</h2></div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Product Name</label><input type="text" class="form-input" placeholder="Enter product name"></div>
+                    <div class="form-group"><label class="form-label">Category</label><select class="form-input"><option>Plastic Components</option><option>Rubber Components</option><option>Composite Materials</option></select></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Raw Material Used</label><input type="text" class="form-input" list="rawMaterialOptions" placeholder="Type or select raw material"><datalist id="rawMaterialOptions"><option value="PP PROPILINAS"></option><option value="NYLON"></option><option value="ABS"></option><option value="POLYSTYRENE CLEAR"></option><option value="HIPS H-IMPACT"></option></datalist></div>
+                    <div class="form-group"><label class="form-label">Number of Stock</label><input type="number" class="form-input" placeholder="Enter number of stock"></div>
+                </div>
+                <div style="margin-top: 25px;"><button class="btn btn-primary">Save Product</button><button class="btn btn-outline" type="button" id="cancelAddProductModal">Cancel</button></div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="viewProductModal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <span class="close-modal" id="closeViewProductModal">&times;</span>
+            <div class="form-section" style="box-shadow:none; border:none; margin-bottom:0;">
+                <div class="form-header"><h2 class="form-title">Product Details</h2></div>
+                <div class="slider-container"><div class="slider" id="productImageSlider"></div><div class="slider-controls"><button class="slider-btn" id="prevImage"><i class="fa-solid fa-chevron-left"></i></button><button class="slider-btn" id="nextImage"><i class="fa-solid fa-chevron-right"></i></button></div></div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Product Name</label><p id="productName" class="form-input" style="border:none; background:none;"></p></div>
+                    <div class="form-group"><label class="form-label">Product Code</label><p id="productCode" class="form-input" style="border:none; background:none;"></p></div>
+                    <div class="form-group"><label class="form-label">Category</label><p id="productCategory" class="form-input" style="border:none; background:none;"></p></div>
+                    <div class="form-group"><label class="form-label">Production Process</label><p id="productProcess" class="form-input" style="border:none; background:none;"></p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="editProductModal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <span class="close-modal" id="closeEditProductModal">&times;</span>
+            <div class="form-section" style="box-shadow:none; border:none; margin-bottom:0;">
+                <div class="form-header"><h2 class="form-title">Edit Product</h2></div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Product Name</label><input type="text" id="editProductName" class="form-input" placeholder="Enter product name"></div>
+                    <div class="form-group"><label class="form-label">Product Code</label><input type="text" id="editProductCode" class="form-input" placeholder="Enter product code"></div>
+                    <div class="form-group"><label class="form-label">Category</label><select id="editProductCategory" class="form-input"><option>Plastic Components</option><option>Rubber Components</option><option>Composite Materials</option></select></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Raw Material Used</label><select id="editProductMaterials" class="form-input" multiple><option>PP PROPILINAS</option><option>NYLON</option><option>ABS</option><option>POLYSTYRENE CLEAR</option><option>HIPS H-IMPACT</option></select></div>
+                    <div class="form-group"><label class="form-label">Unit of Measure</label><select id="editProductUnit" class="form-input"><option>kg</option><option>Bags</option><option>Pieces</option></select></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Standard Weight</label><input type="number" id="editProductWeight" class="form-input" placeholder="Enter weight per unit"></div>
+                    <div class="form-group"><label class="form-label">Production Process</label><select id="editProductProcess" class="form-input"><option>Injection Molding</option><option>Extrusion</option><option>Compression Molding</option></select></div>
+                </div>
+                <div style="margin-top: 25px;"><button class="btn btn-primary" id="saveEditProduct">Save Changes</button><button class="btn btn-outline" type="button" id="cancelEditProductModal">Cancel</button></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Transaction Modal -->
+    <div class="modal-overlay" id="addTransactionModal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-modal" id="cancelAddTransactionModal">&times;</span>
+            <div class="form-section">
+                <div class="form-header">
+                    <h2>New Material Transaction</h2>
+                </div>
+                <form id="addTransactionForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="transDate">Date</label>
+                            <input type="text" id="transDate" class="datepicker" required placeholder="Select date...">
+                        </div>
+                        <div class="form-group">
+                            <label for="transType">Transaction Type</label>
+                            <select id="transType" class="form-input" required>
+                                <option value="out" selected>Material Out</option>
+                                <option value="in">Material In</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="transMaterial">Material</label>
+                            <select id="transMaterial" class="form-input" required>
+                                <option value="">Select Material</option>
+                                <option value="pp">PP Propilinas (Clear)</option>
+                                <option value="nylon">Nylon (White)</option>
+                                <option value="abs">ABS (White)</option>
+                                <option value="polystyrene">Polystyrene Clear</option>
+                                <option value="hips">HIPS H-Impact (White)</option>
+                                <option value="h-impact">H-Impact (White)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="transProduct">Product Used</label>
+                            <select id="transProduct" class="form-input">
+                                <option value="">Select Product (if applicable)</option>
+                                <option value="40slx">40 SLX Stand cap</option>
+                                <option value="gasknob">Gas Knob</option>
+                                <option value="switchknob">Switch Knob</option>
+                                <option value="yellowcore">Plastic Yellow Core</option>
+                                <option value="yellowbluecore">Plastic Yellow/Blue Core</option>
+                                <option value="coresmall">Plastic Core (Small)</option>
+                                <option value="coremedium">Plastic Core (Medium)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="transQuantity">Quantity</label>
+                            <input type="number" id="transQuantity" class="form-input" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="transLocation">Location</label>
+                            <select id="transLocation" class="form-input" required>
+                                <option value="plant1" selected>Plant 1</option>
+                                <option value="plant2">Plant 2</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="transNotes">Notes</label>
+                            <textarea id="transNotes" class="form-input" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" id="cancelAddTransactionBtn">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Record Transaction</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="script.js"></script>
 </body>
 </html>
