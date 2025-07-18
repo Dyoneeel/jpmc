@@ -18,19 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Login form submit
-  loginForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const username = document.getElementById('username').value.trim();
-    const password = passwordInput.value;
-    if (username === 'admin1' && password === 'jamespolymer0823') {
-      window.location.href = 'index.html';
-    } else {
-      errorMessage.textContent = 'Invalid username or password. Please try again.';
-      errorModal.style.display = 'flex';
-    }
-  });
-
   // Close error modal
   closeErrorModalBtn.addEventListener('click', function() {
     errorModal.style.display = 'none';
